@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -52,3 +53,4 @@ Route::middleware([
 });
 
 Route::resource('/users', UsersController::class);
+Route::resource('/requests', RequestController::class);

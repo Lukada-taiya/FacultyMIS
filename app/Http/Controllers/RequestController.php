@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Cmgmyr\Messenger\Models\Thread;
 use Inertia\Inertia;
 
-class UsersController extends Controller
+class RequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::paginate(15)->through(fn ($user) => [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email
-        ]);
-        return Inertia::render('backend/users/Index', ['users' => $users]);
+        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        Inertia::render('backend/requests/Index.vue');
     }
 
     /**
@@ -26,7 +23,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return Inertia::render('backend/users/Create');
+        //
     }
 
     /**
@@ -34,23 +31,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $new_user = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'email' => 'required|email|min:5|max:255',
-            'password' => 'required'
-        ]);
-
-        $new_user['password'] = bcrypt($new_user['password']);
-
-        User::create($new_user);
-
-        $users = User::paginate(15)->through(fn ($user) => [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email
-        ]);
-
-        return Inertia::render('backend/users/Index', ['users' => $users]);
+        //
     }
 
     /**
