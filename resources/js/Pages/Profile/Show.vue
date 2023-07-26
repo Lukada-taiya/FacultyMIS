@@ -15,6 +15,7 @@ defineProps({
 
 <template>
     <AppLayout>
+        <div class="bg-gray-100 flex-1 p-6 md:mt-16">
         <div>
             <div class="max-w-3xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
@@ -57,6 +58,7 @@ defineProps({
                     <DeleteUserForm class="mt-10 sm:mt-0" />
                 </template>
             </div>
+        </div>
         </div>
     </AppLayout>
 </template>

@@ -70,7 +70,7 @@
                         <div class="w-8 h-8 overflow-hidden rounded-full">
                             <img
                                 class="w-full h-full object-cover"
-                                src="../Pages/assets/img/user.svg"
+                                :src="profilePic"
                             />
                         </div>
 
@@ -368,7 +368,7 @@
                                 />
                             </div>
 
-                            <div class="flex-1 flex flex-rowbg-green-100">
+                            <div class="flex-1 flex flex-row bg-green-100">
                                 <div class="flex-1">
                                     <h1 class="text-sm font-semibold">
                                         mohamed said
@@ -471,6 +471,17 @@
 </template>
 <script>
 export default {
+    props: {
+        auth: Object,
+    },
+    computed: {
+        profilePic() {
+            // console.log(this.auth);
+            // const pic = $page.props;
+            // return "/img/" + pic === "" ? "user.svg" : pic;
+            return "/img/user.svg";
+        },
+    },
     methods: {
         toggleMenu(id) {
             const menu = document.querySelector("#" + id + " .menu");
