@@ -45,10 +45,16 @@ class PermissionSeeder extends Seeder
         $role4->givePermissionTo('delete other users');
         $role4->givePermissionTo('update other users');
 
-        $role2 = Role::create(['name' => 'coordinator']);
-        $role2->givePermissionTo('read other users');
+        $role5 = Role::create(['name' => 'hod']);
+        $role5->givePermissionTo('create other users');
+        $role5->givePermissionTo('read other users');
+        $role5->givePermissionTo('delete other users');
+        $role5->givePermissionTo('update other users');
 
-        $role2 = Role::create(['name' => 'student']);
+        $role6 = Role::create(['name' => 'coordinator']);
+        $role6->givePermissionTo('read other users');
+
+        $role7 = Role::create(['name' => 'student']);
 
         // create demo users
         // $user = \App\Models\User::factory()->create([

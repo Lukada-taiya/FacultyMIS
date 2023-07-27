@@ -32,12 +32,12 @@
             <div
                 class="text-gray-600 md:w-full md:flex md:flex-row md:justify-evenly md:pb-10 md:mb-10 md:border-b md:border-gray-200"
             >
-                <a
+                <Link
                     class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
-                    href="#"
+                    :href="route('requests.index')"
                     title="email"
                     ><i class="fad fa-envelope-open-text"></i
-                ></a>
+                ></Link>
                 <a
                     class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
                     href="#"
@@ -70,7 +70,7 @@
                         <div class="w-8 h-8 overflow-hidden rounded-full">
                             <img
                                 class="w-full h-full object-cover"
-                                src="../Pages/assets/img/user.svg"
+                                :src="profilePic"
                             />
                         </div>
 
@@ -368,7 +368,7 @@
                                 />
                             </div>
 
-                            <div class="flex-1 flex flex-rowbg-green-100">
+                            <div class="flex-1 flex flex-row bg-green-100">
                                 <div class="flex-1">
                                     <h1 class="text-sm font-semibold">
                                         mohamed said
@@ -470,7 +470,17 @@
     <!-- end navbar -->
 </template>
 <script>
+import { Link, router } from "@inertiajs/vue3";
 export default {
+    components: { Link },
+    props: {
+        auth: Object,
+    },
+    computed: {
+        profilePic() { 
+            return "/img/user.svg";
+        },
+    },
     methods: {
         toggleMenu(id) {
             const menu = document.querySelector("#" + id + " .menu");
@@ -492,6 +502,9 @@ export default {
                 }
             }
         },
+        logout() {
+            router.post(route('logout'));
+        }
     },
 };
 </script>
