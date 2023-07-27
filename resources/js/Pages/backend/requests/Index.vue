@@ -13,29 +13,32 @@
 
                 <ul>
                     <li class="my-5 mt-0">
-                        <a class="btn-indigo text-left" href="#">
+                        <button
+                            class="all btn btn-indigo w-full text-left"
+                            @click="switchView('all')"
+                        >
                             <i class="text-xs far fa-envelope mr-1"></i>
-                            all
-                        </a>
+                            all requests
+                        </button>
                     </li>
 
                     <li>
-                        <a
-                            class="btn text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
-                            href="#"
+                        <button
+                            class="received btn w-full text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
+                            @click="switchView('received')"
                         >
                             <i class="text-xs fad fa-inbox mr-1"></i>
                             Received
-                        </a>
+                        </button>
                     </li>
                     <li>
-                        <a
-                            class="btn text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
-                            href="#"
+                        <button
+                            class="btn sent w-full text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
+                            @click="switchView('sent')"
                         >
                             <i class="text-xs fad fa-paper-plane mr-1"></i>
                             sent
-                        </a>
+                        </button>
                     </li>
 
                     <li>
@@ -68,7 +71,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-span-6 card flex flex-col">
+            <div class="col-span-6 card flex flex-col justify-between">
                 <div class="px-3 border-b">
                     <form action="" class="flex">
                         <input
@@ -81,36 +84,10 @@
                         </button>
                     </form>
                 </div>
-
-                <div class="flex-1 flex flex-col">
-                    <!-- message -->
-
-                    <div                    
-                        @click="openRequest(thread.id)"
-                        v-for="thread in threads"
-                        :key="thread.id"
-                        class="cursor-pointer flex items-center shadow-xs transition-all duration-300 ease-in-out p-5 hover:shadow-md"
-                    >
-                        <div class="w-10 h-10 overflow-hidden rounded-md">
-                            <img
-                                class="img-responsive"
-                                src="img/user.svg"
-                                :alt="thread.sender.name"
-                            />
-                        </div>
-                        <h1 class="ml-3 text-sm text-gray-500">
-                            {{ thread.sender.name }}
-                        </h1>
-                        <p class="ml-6 flex-1 text-sm text-gray-500">
-                            {{ thread.subject }}
-                        </p>
-                        <p class="text-sm text-gray-500">
-                            {{ thread.created_at }}
-                        </p>
-                    </div>
-                    <!-- message -->
-                </div>
-
+                <component
+                    :is="view"
+                    :customThreads="customThreads"
+                ></component>
                 <div class="card-footer flex justify-between">
                     <p>4.41 GB (25%) of 17 GB used Manage</p>
                     <p>Last account activity: 36 minutes ago</p>
@@ -121,16 +98,84 @@
 </template>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Link, router } from "@inertiajs/vue3";
+import All from "./All.vue";
+import Sent from "./Sent.vue";
+import Received from "./Received.vue";
+import { usePage } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 export default {
-    components: { AppLayout, Link },
+    components: { AppLayout, All, Received, Sent, Link },
     props: {
         threads: Object,
     },
+    data() {
+        return {
+            user: usePage().props.auth.user,
+            view: "all",
+            customThreads: this.threads,
+        };
+    },
     methods: {
-        openRequest(id) {
-            router.get('/requests/'+id);
-        }
-    }
+        switchView(viewText) {
+            this.filterThreads(viewText);
+            this.switchButtonStyle(viewText);
+            this.view = viewText;
+        },
+        filterThreads(type) {
+            // console.log('type', type);
+            let newThreads = [];
+            if (type === "sent") {
+                for (const thread of this.threads) {
+                    if (this.user.id == thread.sender.id) {
+                        newThreads.push(thread);
+                    }
+                }
+            } else if (type === "received") {
+                for (const thread of this.threads) {
+                    if (this.user.id != thread.sender.id) {
+                        newThreads.push(thread);
+                    }
+                }
+            } else if (type === "all") {
+                newThreads = this.threads;
+            }
+            // console.log(newThreads);
+            this.customThreads = newThreads;
+        },
+        switchButtonStyle(button) {
+            const inactive = [
+                "text-gray-800",
+                "bg-white",
+                "hover:bg-gray-100",
+                "hover:text-gray-900",
+                "btn",
+            ];
+            const active = "btn-indigo";
+            if (button === "sent") {
+                document.querySelector(".sent").classList.remove(...inactive);
+                document.querySelector(".sent").classList.add(active);
+                document.querySelector(".all").classList.remove(active);
+                document.querySelector(".all").classList.add(...inactive);
+                document.querySelector(".received").classList.remove(active);
+                document.querySelector(".received").classList.add(...inactive);
+            } else if (button === "received") {
+                document
+                    .querySelector(".received")
+                    .classList.remove(...inactive);
+                document.querySelector(".received").classList.add(active);
+                document.querySelector(".all").classList.remove(active);
+                document.querySelector(".all").classList.add(...inactive);
+                document.querySelector(".sent").classList.remove(active);
+                document.querySelector(".sent").classList.add(...inactive);
+            } else if (button === "all") {
+                document.querySelector(".all").classList.remove(...inactive);
+                document.querySelector(".all").classList.add(active);
+                document.querySelector(".received").classList.remove(active);
+                document.querySelector(".received").classList.add(...inactive);
+                document.querySelector(".sent").classList.remove(active);
+                document.querySelector(".sent").classList.add(...inactive);
+            }
+        },
+    },
 };
 </script>

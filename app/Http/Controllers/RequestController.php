@@ -28,15 +28,19 @@ class RequestController extends Controller
         $threads = Thread::forUser(Auth::id())->latest('updated_at')->with('messages')->get()->map(fn ($thread) => [
             'id' => $thread->id,
             'subject' => $thread->subject,
-            'created_at' => $thread->created_at,
+            'created_at' => $thread->created_at->diffForHumans(),
             'message' => $thread->messages[0],
-            'sender' => $thread->messages[0]->user()->get()[0]
+            'sender' => array(
+                'id' => $thread->messages[0]->user()->get()[0]->id,
+                'name' => $thread->messages[0]->user()->get()[0]->name,
+                'profile_pic' => $thread->messages[0]->user()->get()[0]->profile_photo_path
+            )
         ]);
 
-        $messages = Message::where('user_id','=', Auth::id());
-        
+        // $messages = Message::where('user_id', '=', Auth::id());
 
-        // dd($threads);
+
+        // dd($threads[0]->messages()->get()[0]->user()->get()[0]);
         return Inertia::render('backend/requests/Index', ['threads' => $threads]);
     }
 
@@ -97,7 +101,7 @@ class RequestController extends Controller
         $thread = Thread::findOrFail($id);
         // dd($thread->messages);
         $message = $thread->messages[0];
-        $sender = $thread->messages[0]->user()->get()[0]; 
+        $sender = $thread->messages[0]->user()->get()[0];
         return Inertia::render('backend/requests/Show', [
             'thread' => $thread,
             'sender' => $sender, 'message' => $message

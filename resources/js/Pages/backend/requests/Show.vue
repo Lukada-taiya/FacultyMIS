@@ -7,7 +7,7 @@
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
                     >
                         <div class="flex">
-                            <div @click="returnBack" class="cursor-pointer">
+                            <div @click="returnBack" class="nb-1 cursor-pointer">
                                 <span class="text-xl fad fa-arrow-left"></span>
                             </div>
                             <div class="ml-4">

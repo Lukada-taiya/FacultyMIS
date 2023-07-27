@@ -53,4 +53,14 @@ Route::middleware([
 });
 
 Route::resource('/users', UsersController::class);
+
+// Route::get('/request/all', function () {
+//     return Inertia::render('backend/request/All');
+// })->name('requests.all');
+Route::get('/request/received', function () {
+    return Inertia::render('backend/requests/Received');
+})->name('requests.received');
+Route::get('/request/sent', function () {
+    return Inertia::render('backend/requests/Sent');
+})->name('requests.sent');
 Route::resource('/requests', RequestController::class);

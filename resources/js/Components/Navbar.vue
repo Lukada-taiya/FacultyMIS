@@ -34,7 +34,7 @@
             >
                 <a
                     class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
-                    href="#"
+                    :href="route('requests.index')"
                     title="email"
                     ><i class="fad fa-envelope-open-text"></i
                 ></a>
