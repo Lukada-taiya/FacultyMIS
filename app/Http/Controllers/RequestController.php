@@ -88,9 +88,16 @@ class RequestController extends Controller
             'last_read' => new Carbon(),
         ]);
 
-        $thread->addParticipant(3);
+        $thread->addParticipant(13);
 
-        return Inertia::render('backend/requests/Index');
+        $message = $thread->messages[0];
+        $sender = $thread->messages[0]->user()->get()[0];
+
+        return Inertia::render('backend/requests/Show', [
+            'thread' => $thread,
+            'sender' => $sender,
+            'message' => $message
+        ]);
     }
 
     /**

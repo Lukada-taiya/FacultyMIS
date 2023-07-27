@@ -30,17 +30,7 @@ export default {
     components: {BaseButton, Link }
 }
 </script>
-<style>
-body {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Raleway", "Arial", sans-serif;
-    line-height: 1.5;
-    color: #fff;
-    background-color: #950c0c;
-}
-
+<style scoped>
 header {
     font-size: small;
     margin: 1.2rem 1.2rem 0 1.2rem;

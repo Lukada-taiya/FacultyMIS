@@ -18,11 +18,8 @@
    @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
    @inertiaHead
 </head>
-{{-- <body class="font-sans antialiased"> --}}
-
-<body>
-   @inertia
-</body>
+{{-- <body class="font-sans antialiased"> --}} 
+   @inertia 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 </html>

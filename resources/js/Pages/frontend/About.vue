@@ -1,5 +1,5 @@
 <template>
-    <Nav />
+    <FrontendLayout>
     <main>
         <div class="left">
             <div class="title">
@@ -23,14 +23,13 @@
             <img src="../assets/about_pic.jpg" alt="about_pic" />
         </div>
     </main>
-    <Footer />
+</FrontendLayout>
 </template>
-<script>
-import Nav from "../Shared/Nav.vue";
-import GradientText from "../Shared/ui/GradientText.vue";
-import Footer from "../Shared/Footer.vue";
+<script> 
+import GradientText from "../Shared/ui/GradientText.vue"; 
+import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 export default {
-    components: { Nav, GradientText, Footer },
+    components: { GradientText, FrontendLayout },
 };
 </script>
 <style scoped>

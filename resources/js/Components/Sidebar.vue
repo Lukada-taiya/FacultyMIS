@@ -25,7 +25,7 @@
             <p class="uppercase text-xs text-gray-600 mb-4 mt-4 tracking-wider">
                 Manage
             </p>
-            <SidebarLink icon="fad fa-users" href="#">Users</SidebarLink>
+            <SidebarLink icon="fad fa-users" :href="route('users.index')">Users</SidebarLink>
             <SidebarLink>Programmes</SidebarLink>
             <SidebarLink>Courses</SidebarLink>
             <SidebarLink>Lecturers</SidebarLink>

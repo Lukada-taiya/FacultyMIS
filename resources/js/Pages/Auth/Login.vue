@@ -1,5 +1,5 @@
-<template>
-    <Nav />
+<template>    
+<FrontendLayout>
     <main>
         <div class="section">
             <div class="form-container">
@@ -100,8 +100,8 @@
                 </form>
             </div>
         </div>
-    </main>
-    <Footer />
+    </main> 
+    </FrontendLayout>
 </template>
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
@@ -109,6 +109,7 @@ import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import BaseButton from "../Shared/ui/BaseButton.vue";
+import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 import Nav from "../Shared/Nav.vue";
 import Footer from "../Shared/Footer.vue";
 import InputError from "@/Components/InputError.vue";
