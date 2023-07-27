@@ -34,7 +34,7 @@ Route::get('/contact', function () {
     return Inertia::render('frontend/Contact');
 });
 
-// Route::get('/login', function () {
+// Route::get('/login/test', function () {
 //     return Inertia::render('frontend/Login');
 // });
 

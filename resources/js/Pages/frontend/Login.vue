@@ -3,36 +3,23 @@
     <main>
         <div class="section">
             <div class="form-container">
-                <div class="form-title">
-                    <span v-if="login">Log In</span>
-                    <span v-else>Sign Up</span>
+                <div class="form-title text-gray-700 mb-3">
+                    <span>Sign in to your account</span>
                 </div>
-                <div v-if="login" class="form-desc">
-                    Don't have an account?
-                    <span @click="toggleLogin('signup')">Sign Up</span>
-                </div>
-                <div v-else class="form-desc">
-                    Already have an account?
-                    <span @click="toggleLogin('login')">Login</span>
-                </div>
-                <div class="google">
-                    <button>
-                        <img src="../assets/google.png" alt="google_logo" />
-                        <span v-if="login">Log in</span
-                        ><span v-else>Sign Up</span> with Google
-                    </button>
-                </div>
-                <div class="divider">
-                    <img src="../assets/divider.png" alt="divider" />
+                <div
+                    v-if="status"
+                    class="mb-4 font-medium text-sm text-green-600"
+                >
+                    {{ status }}
                 </div>
                 <form @submit.prevent="submit">
                     <div
-                            v-if="$page.props.err"
-                            v-text="$page.props.err"
-                            class="errors"
-                        ></div>
+                        v-if="$page.props.err"
+                        v-text="$page.props.err"
+                        class="errors"
+                    ></div>
                     <div class="form-item">
-                        <label for="email">Your email</label>
+                        <label id="label" for="email">Your email</label>
                         <input
                             v-model="form.email"
                             type="email"
@@ -41,23 +28,27 @@
                             required
                         />
                         <div
-                            v-if="$page.props.errors.email"
-                            v-text="$page.props.errors.email"
+                            v-if="form.errors.email"
+                            v-text="form.errors.email"
                             class="errors"
                         ></div>
                     </div>
                     <div class="form-item password">
-                        <label for="password">Password</label>
-                        <div
+                        <label id="label" for="password">Password</label>
+                        <!-- <div
                             v-if="show"
                             @click="toggleShow('hide')"
-                            class="visible"
+                            class="visible hidden"
                         >
                             <img src="../assets/hide.svg" alt="hide" /> Hide
                         </div>
-                        <div v-else @click="toggleShow('show')" class="visible">
+                        <div
+                            v-else
+                            @click="toggleShow('show')"
+                            class="visible hidden"
+                        >
                             <img src="../assets/show.png" alt="show" /> Show
-                        </div>
+                        </div> -->
                         <input
                             v-model="form.password"
                             ref="password"
@@ -67,27 +58,43 @@
                             required
                         />
                         <div
-                            v-if="$page.props.errors.password"
-                            v-text="$page.props.errors.password"
+                            v-if="form.errors.password"
+                            v-text="form.errors.password"
                             class="errors"
                         ></div>
-                        <span v-if="login">Forgot your password</span>
-                    </div>
-
-                    <div v-if="!login" class="form-item">
-                        <label for="password_confirm">Retype password</label>
-                        <input
-                            ref="password_confirm"
-                            name="password_confirm"
-                            id="password_confirm"
-                            type="password"
-                            required
-                        />
+                        <div class="flex justify">
+                            <div class="block mt-4">
+                                <label class="flex items-center">
+                                    <Checkbox
+                                        v-model:checked="form.remember"
+                                        name="remember"
+                                    />
+                                    <span class="ml-2 text-sm text-gray-600"
+                                        >Remember me</span
+                                    >
+                                </label>
+                            </div>
+                            <div class="mt-4">
+                                <!-- <Link
+                            v-if="canResetPassword"
+                            :href="route('password.request')"
+                            >Forgot your password</Link
+                        > -->
+                                <Link
+                                    class="text-sm text-gray-600"
+                                    :href="route('password.request')"
+                                    >Forgot your password</Link
+                                >
+                            </div>
+                        </div>
                     </div>
                     <div class="form-item">
-                        <base-button type="submit" name="submit"
-                            ><span v-if="login">Login</span
-                            ><span v-else>Sign Up</span></base-button
+                        <base-button
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            type="submit"
+                            name="submit"
+                            ><span>Login</span></base-button
                         >
                     </div>
                 </form>
@@ -96,50 +103,60 @@
     </main>
     <Footer />
 </template>
-<script>
+<script setup>
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import AuthenticationCard from "@/Components/AuthenticationCard.vue";
+import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import Checkbox from "@/Components/Checkbox.vue";
+import BaseButton from "../Shared/ui/BaseButton.vue";
 import Nav from "../Shared/Nav.vue";
 import Footer from "../Shared/Footer.vue";
-import BaseButton from "../Shared/ui/BaseButton.vue";
-import { router } from "@inertiajs/vue3";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
 
-export default {
-    components: { Nav, Footer, BaseButton },
-    data() {
-        return {
-            login: true,
-            show: false,
-            form: {
-                email: "",
-                password: "",
-            },
-        };
-    },
-    methods: {
-        toggleLogin(type) {
-            this.login = type === "login" ? true : false;
-        },
-        toggleShow(isShow) {
-            if (isShow === "show") {
-                this.$refs.password.type = "text";
-                if (this.$refs.password_confirm !== null) {
-                    this.$refs.password_confirm.type = "text";
-                }
-                this.show = true;
-            } else {
-                this.$refs.password.type = "password";
-                if (this.$refs.password_confirm !== null) {
-                    this.$refs.password_confirm.type = "password";
-                }
-                this.show = false;
-            }
-        },
-        submit() {
-            router.post("/authenticate", this.form);
-        },
-    },
+defineProps({
+    canResetPassword: Boolean,
+    status: String,
+});
+
+const form = useForm({
+    email: "",
+    password: "",
+    remember: false,
+});
+
+const submit = () => {
+    form.transform((data) => ({
+        ...data,
+        remember: form.remember ? "on" : "",
+    })).post(route("login"), {
+        onFinish: () => form.reset("password"),
+    });
 };
+
+// const toggleShow = (isShow) => {
+//     if (isShow === "show") {
+//         this.$refs.password.type = "text";
+//         if (this.$refs.password_confirm !== null) {
+//             this.$refs.password_confirm.type = "text";
+//         }
+//         this.show = true;
+//     } else {
+//         this.$refs.password.type = "password";
+//         if (this.$refs.password_confirm !== null) {
+//             this.$refs.password_confirm.type = "password";
+//         }
+//         this.show = false;
+//     }
+// };
 </script>
+
 <style scoped>
+.justify {
+    justify-content: space-between;
+}
 .section {
     text-align: center;
     margin: 2rem 0;
@@ -157,20 +174,20 @@ export default {
 }
 
 .form-title {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 1rem;
+    /* font-weight: bold; */
 }
 
 .form-desc {
     margin: 1rem 0;
 }
 
-.password span,
+.password #span,
 .form-desc span {
     text-decoration: underline;
 }
 
-.password span,
+.password #span,
 .form-desc span:hover,
 .form-item .visible {
     cursor: pointer;
@@ -207,12 +224,13 @@ export default {
     text-align: left;
 }
 
-.form-item label {
+.form-item #label {
     display: block;
     color: #444;
 }
 
-.form-item input,
+.form-item #email,
+.form-item #password,
 .form-item textarea {
     display: block;
     padding: 0.5rem;
@@ -221,8 +239,8 @@ export default {
     font: inherit;
     border-radius: 5px;
 }
-
-.form-item input:focus,
+.form-item #email:focus,
+.form-item #password:focus,
 .form-item textarea:focus {
     background-color: #f0e6fd;
     outline: none;
@@ -254,7 +272,7 @@ export default {
     position: relative;
 }
 
-.password span {
+.password #span {
     position: absolute;
     right: -1rem;
 }
