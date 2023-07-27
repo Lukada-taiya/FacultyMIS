@@ -32,12 +32,12 @@
             <div
                 class="text-gray-600 md:w-full md:flex md:flex-row md:justify-evenly md:pb-10 md:mb-10 md:border-b md:border-gray-200"
             >
-                <a
+                <Link
                     class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
                     :href="route('requests.index')"
                     title="email"
                     ><i class="fad fa-envelope-open-text"></i
-                ></a>
+                ></Link>
                 <a
                     class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
                     href="#"
@@ -470,15 +470,14 @@
     <!-- end navbar -->
 </template>
 <script>
+import { Link, router } from "@inertiajs/vue3";
 export default {
+    components: { Link },
     props: {
         auth: Object,
     },
     computed: {
-        profilePic() {
-            // console.log(this.auth);
-            // const pic = $page.props;
-            // return "/img/" + pic === "" ? "user.svg" : pic;
+        profilePic() { 
             return "/img/user.svg";
         },
     },
@@ -503,6 +502,9 @@ export default {
                 }
             }
         },
+        logout() {
+            router.post(route('logout'));
+        }
     },
 };
 </script>

@@ -18,8 +18,8 @@
                 recents
             </p>
 
-            <SidebarLink icon="fad fa-window-alt" href="#"
-                >Test Item</SidebarLink
+            <SidebarLink icon="fad fa-window-alt" :href="route('requests.index')"
+                >Requests</SidebarLink
             >
 
             <p class="uppercase text-xs text-gray-600 mb-4 mt-4 tracking-wider">

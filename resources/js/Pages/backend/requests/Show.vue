@@ -34,7 +34,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
 export default {
-    props: { thread: Array, sender: Array, message: Array },
+    props: { thread: Object, sender: Object, message: Object },
     components: {
         AppLayout,
         router,
