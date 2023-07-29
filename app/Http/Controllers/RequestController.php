@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -49,7 +50,11 @@ class RequestController extends Controller
      */
     public function create()
     {
-        return Inertia::render('backend/requests/Create');
+        $users = User::all()->map(fn ($user) => [
+            'id' => $user->id,
+            'name' => $user->name
+        ]); 
+        return Inertia::render('backend/requests/Create', ['users' => $users]);
     }
 
     /**

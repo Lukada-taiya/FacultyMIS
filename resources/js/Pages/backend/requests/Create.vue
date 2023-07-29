@@ -65,7 +65,7 @@
                                                     <div
                                                         class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
-                                                        <input
+                                                        <select
                                                             v-model="
                                                                 form.recipient
                                                             "
@@ -75,7 +75,15 @@
                                                             autocomplete="email"
                                                             class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                             placeholder="Who are you making the request to..."
-                                                        />
+                                                        >
+                                                            <option
+                                                                v-for="user of users"
+                                                                :key="user.id"
+                                                                :value="user.id"
+                                                            >
+                                                                {{ user.name }}
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                     <div
                                                         v-if="errors.recipient"
@@ -121,7 +129,8 @@
                                 <div
                                     class="mt-6 flex items-center justify-end gap-x-6"
                                 >
-                                    <button @click="returnBack"
+                                    <button
+                                        @click="returnBack"
                                         type="button"
                                         class="text-sm font-semibold leading-6 text-gray-900"
                                     >
@@ -160,7 +169,7 @@ export default {
     props: { users: Object, errors: Object },
     methods: {
         returnBack() {
-            router.get('/requests')
+            router.get("/requests");
         },
         submit() {
             //Validation
