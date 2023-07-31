@@ -30,16 +30,10 @@ export default {
                 72: "18rem",
                 84: "21rem",
                 96: "24rem",
-            },
-            fontFamily: {
-                sans: ["Ubuntu", "Sans-serif"],
-            },
-            // fontFamily: {
-            //     sans: ["Figtree", ...defaultTheme.fontFamily.sans],
-            // },
+            }, 
         },
     },
-
+    variants: {},
     plugins: [
         forms,
         typography,
