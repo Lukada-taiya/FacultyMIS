@@ -21,7 +21,8 @@
                                 <div class="ml-2">{{ sender.name }}</div>
                             </div>
                             <div class="mt-3">
-                                {{ message.body }}
+                                <iframe :src="'https://docs.google.com/gview?url='+ message + '&embedded=true'"></iframe>
+                                <!-- {{ message }} -->
                             </div>
                         </div>
                     </div>
@@ -34,7 +35,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
 export default {
-    props: { thread: Object, sender: Object, message: Object },
+    props: { thread: Object, sender: Object, message: String },
     components: {
         AppLayout,
         router,

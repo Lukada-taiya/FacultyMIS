@@ -65,17 +65,25 @@
                                                     <div
                                                         class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
-                                                        <input
+                                                        <select
                                                             v-model="
                                                                 form.recipient
-                                                            "
-                                                            type="text"
+                                                            " 
                                                             name="recipient"
                                                             id="recipient"
                                                             autocomplete="email"
                                                             class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                            placeholder="Who are you making the request to..."
-                                                        />
+                                                        >
+                                                         <option value="" selected disabled hidden>Select recipient of request</option>
+                                                        <!-- <option selected>Select recipient</option> -->
+                                                            <option
+                                                                v-for="user in users"
+                                                                :key="user.id"
+                                                                :value="user.id"
+                                                            >
+                                                                {{ user.name }}
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                     <div
                                                         v-if="errors.recipient"
@@ -121,7 +129,8 @@
                                 <div
                                     class="mt-6 flex items-center justify-end gap-x-6"
                                 >
-                                    <button @click="returnBack"
+                                    <button
+                                        @click="returnBack"
                                         type="button"
                                         class="text-sm font-semibold leading-6 text-gray-900"
                                     >
@@ -131,7 +140,7 @@
                                         type="submit"
                                         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
-                                        Send
+                                        Create
                                     </button>
                                 </div>
                             </form>
@@ -157,14 +166,15 @@ export default {
         };
     },
     components: { AppLayout, Link },
-    props: { users: Object, errors: Object },
+    props: { users: Array, errors: Object },
     methods: {
         returnBack() {
-            router.get('/requests')
+            router.get("/requests");
         },
         submit() {
             //Validation
             // this.errors = "";
+            alert(this.form);
             router.post("/requests", this.form);
         },
         onFilePicked(event) {

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Image;
 
@@ -49,7 +52,11 @@ class RequestController extends Controller
      */
     public function create()
     {
-        return Inertia::render('backend/requests/Create');
+        $users = User::all()->map(fn($user) => [
+            'id' => $user->id,
+            'name' => $user->name
+        ]);
+        return Inertia::render('backend/requests/Create', ['users' => $users]);
     }
 
     /**
@@ -57,7 +64,7 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        $requestt = $request->validate([
+        $request_arr = $request->validate([
             'subject' => 'required|min:3|max:255',
             'recipient' => 'required',
             'body' => 'required|file|mimes:docx,doc,pdf'
@@ -71,7 +78,7 @@ class RequestController extends Controller
 
 
         $thread = Thread::create([
-            'subject' => $requestt['subject'],
+            'subject' => $request_arr['subject'],
         ]);
 
         // Message
@@ -88,9 +95,9 @@ class RequestController extends Controller
             'last_read' => new Carbon(),
         ]);
 
-        $thread->addParticipant(3);
+        $thread->addParticipant($request_arr['recipient']);
 
-        return Inertia::render('backend/requests/Index');
+        return Redirect::route('requests.index');
     }
 
     /**
@@ -100,11 +107,13 @@ class RequestController extends Controller
     {
         $thread = Thread::findOrFail($id);
         // dd($thread->messages);
-        $message = $thread->messages[0];
+        $message = $thread->messages[0]->body;
         $sender = $thread->messages[0]->user()->get()[0];
+        // dd();
+
         return Inertia::render('backend/requests/Show', [
             'thread' => $thread,
-            'sender' => $sender, 'message' => $message
+            'sender' => $sender, 'message' => public_path($message)
         ]);
     }
 
