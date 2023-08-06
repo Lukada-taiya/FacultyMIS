@@ -68,14 +68,21 @@
                                                         <select
                                                             v-model="
                                                                 form.recipient
-                                                            " 
+                                                            "
                                                             name="recipient"
                                                             id="recipient"
                                                             autocomplete="email"
                                                             class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         >
-                                                         <option value="" selected disabled hidden>Select recipient of request</option>
-                                                        <!-- <option selected>Select recipient</option> -->
+                                                            <option
+                                                                value=""
+                                                                selected
+                                                                disabled
+                                                                hidden
+                                                            >
+                                                                Select recipient
+                                                                of request
+                                                            </option>
                                                             <option
                                                                 v-for="user in users"
                                                                 :key="user.id"
@@ -159,14 +166,22 @@ export default {
     data() {
         return {
             form: {
-                subject: "",
-                recipient: "",
+                subject: this.subject,
+                recipient: this.user,
                 body: "",
             },
         };
     },
     components: { AppLayout, Link },
-    props: { users: Array, errors: Object },
+    props: {
+        users: Array,
+        errors: Object,
+        user: {
+            type: String,
+            default: "",
+        },
+        subject: String,
+    },
     methods: {
         returnBack() {
             router.get("/requests");
@@ -174,7 +189,7 @@ export default {
         submit() {
             //Validation
             // this.errors = "";
-            alert(this.form);
+            // alert(this.form);
             router.post("/requests", this.form);
         },
         onFilePicked(event) {

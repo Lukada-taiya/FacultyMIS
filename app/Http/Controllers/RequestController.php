@@ -27,8 +27,9 @@ class RequestController extends Controller
      */
     public function index()
     {
+        $user = Auth::id();
         // $threads = Thread::forUser(Auth::id())->latest('updated_at')->with('users')->get();
-        $threads = Thread::forUser(Auth::id())->latest('updated_at')->with('messages')->get()->map(fn ($thread) => [
+        $threads = Thread::forUser($user)->latest('updated_at')->with('messages')->get()->map(fn ($thread) => [
             'id' => $thread->id,
             'subject' => $thread->subject,
             'created_at' => $thread->created_at->diffForHumans(),
@@ -36,8 +37,9 @@ class RequestController extends Controller
             'sender' => array(
                 'id' => $thread->messages[0]->user()->get()[0]->id,
                 'name' => $thread->messages[0]->user()->get()[0]->name,
-                'profile_pic' => $thread->messages[0]->user()->get()[0]->profile_photo_path
-            )
+                'profile_pic' => $thread->messages[0]->user()->get()[0]->profile_photo_path,
+            ),
+            'isUnread' => $thread->isUnread($user)
         ]);
 
         // $messages = Message::where('user_id', '=', Auth::id());
@@ -50,13 +52,18 @@ class RequestController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $users = User::all()->map(fn($user) => [
+        $thread_subject = "";
+        $user = null;
+        if ($request->thread) {
+            $thread_subject = 'Reply: ' . Thread::findOrFail($request->thread)->subject;
+        }
+        $users = User::all()->map(fn ($user) => [
             'id' => $user->id,
             'name' => $user->name
-        ]);
-        return Inertia::render('backend/requests/Create', ['users' => $users]);
+        ]); 
+        return Inertia::render('backend/requests/Create', ['users' => $users, 'subject' => $thread_subject, 'user' => $request->user]);
     }
 
     /**
@@ -106,13 +113,18 @@ class RequestController extends Controller
     public function show(string $id)
     {
         $thread = Thread::findOrFail($id);
+        $thread_arr = ['id' => $thread->id, 'subject' => $thread->subject, 'created_at' => $thread->created_at->diffForHumans()];
         // dd($thread->messages);
         $message = $thread->messages[0]->body;
         $sender = $thread->messages[0]->user()->get()[0];
-        // dd();
+        $user = Auth::id();
+        if ($thread->isUnread($user)) {
+            $thread->markAsRead($user);
+        }
+        // dd($thread->created_at->diffForHumans());
 
         return Inertia::render('backend/requests/Show', [
-            'thread' => $thread,
+            'thread' => $thread_arr,
             'sender' => $sender, 'message' => public_path($message)
         ]);
     }
