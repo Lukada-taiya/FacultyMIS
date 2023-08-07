@@ -79,6 +79,49 @@
                                             </div>
                                             <div class="sm:col-span-full mt-5">
                                                 <label
+                                                    for="role"
+                                                    class="block text-sm font-medium leading-6 text-gray-900"
+                                                    >Role</label
+                                                >
+                                                <div class="mt-2">
+                                                    <div
+                                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                                    >
+                                                        <select
+                                                            v-model="form.role"
+                                                            name="role"
+                                                            id="role"
+                                                            autocomplete="role"
+                                                            class="capitalize block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                                selected
+                                                            >
+                                                                Select role...
+                                                            </option>
+
+                                                            <option
+                                                                class="capitalize"
+                                                                v-for="role of roles"
+                                                                :key="role.id"
+                                                                :value="role.id"
+                                                            >
+                                                                {{ role.name }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div
+                                                        v-if="errors.role"
+                                                        v-text="errors.role"
+                                                        class="mt-1 font-bold text-sm text-red-500"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div class="sm:col-span-full mt-5">
+                                                <label
                                                     for="password"
                                                     class="block text-sm font-medium leading-6 text-gray-900"
                                                     >Password</label
@@ -146,17 +189,17 @@
                                 <div
                                     class="mt-6 flex items-center justify-end gap-x-6"
                                 >
-                                    <button
-                                        type="button"
+                                    <Link
+                                        :href="route('users.index')"
                                         class="text-sm font-semibold leading-6 text-gray-900"
                                     >
                                         Cancel
-                                    </button>
+                                    </Link>
                                     <button
                                         type="submit"
                                         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
-                                        Save
+                                        Create
                                     </button>
                                 </div>
                             </form>
@@ -179,11 +222,12 @@ export default {
                 email: "",
                 password: "",
                 password_confirmation: "",
+                role: "",
             },
         };
     },
     components: { AppLayout, Link },
-    props: { users: Object, errors: Object },
+    props: { users: Object, errors: Object, roles: Object },
     methods: {
         submit() {
             //Validation

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -16,7 +18,7 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $users = User::paginate(15)->through(fn ($user) => [
@@ -32,7 +34,11 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return Inertia::render('backend/users/Create');
+        $roles = Role::all()->where('name', '<>', 'dean')->where('name', '<>', 'super-admin')->map(fn ($role) => [
+            'id' => $role->id,
+            'name' => $role->name
+        ]);
+        return Inertia::render('backend/users/Create', ['roles' => $roles]);
     }
 
     /**
@@ -40,23 +46,23 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $new_user = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'email' => 'required|email|min:5|max:255',
-            'password' => 'required|confirmed'
-        ]);
+        dd(auth()->user()->hasPermissionTo('create other users'));
+        if (auth()->user()->hasPermissionTo('create other users')) {
+            $new_user = $request->validate([
+                'name' => 'required|min:3|max:255',
+                'email' => 'required|email|unique:users,email|min:5|max:255',
+                'password' => 'required|confirmed',
+                'role' => 'required'
+            ]);
 
-        $new_user['password'] = bcrypt($new_user['password']);
+            $new_user['password'] = bcrypt($new_user['password']);
 
-        User::create($new_user);
+            $user = User::create($new_user);
+            $user->assignRole($new_user['role']);
+            dd($user->hasRole('hod'));
+        }
 
-        $users = User::paginate(15)->through(fn ($user) => [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email
-        ]);
-
-        return Inertia::render('backend/users/Index', ['users' => $users]);
+        return to_route('users.index');
     }
 
     /**

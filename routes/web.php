@@ -64,3 +64,5 @@ Route::get('/request/sent', function () {
     return Inertia::render('backend/requests/Sent');
 })->name('requests.sent');
 Route::resource('/requests', RequestController::class);
+
+require_once __DIR__ ."/jetstream.php";

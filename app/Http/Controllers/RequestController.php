@@ -59,6 +59,7 @@ class RequestController extends Controller
         if ($request->thread) {
             $thread_subject = 'Reply: ' . Thread::findOrFail($request->thread)->subject;
         }
+        $user = Auth::id();
         $users = User::all()->map(fn ($user) => [
             'id' => $user->id,
             'name' => $user->name
@@ -150,6 +151,6 @@ class RequestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }
