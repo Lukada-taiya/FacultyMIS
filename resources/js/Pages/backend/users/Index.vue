@@ -30,7 +30,10 @@
                                             Email
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Position
+                                            Role
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Actions
                                         </th>
                                     </tr>
                                 </thead>
@@ -52,7 +55,18 @@
                                         <td class="px-6 py-4">
                                             {{ user.email }}
                                         </td>
-                                        <td class="px-6 py-4">Student</td>
+                                        <td class="px-6 py-4">
+                                            {{ user.role }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <Link
+                                                class="text-yellow-700 font-bold"
+                                                :href="
+                                                    route('users.edit', user.id)
+                                                "
+                                                >Edit</Link
+                                            >
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

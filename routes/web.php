@@ -65,4 +65,5 @@ Route::get('/request/sent', function () {
 })->name('requests.sent');
 Route::resource('/requests', RequestController::class);
 
-require_once __DIR__ ."/jetstream.php";
+require_once __DIR__ ."/fortify.php";
+require_once __DIR__ . "/jetstream.php";

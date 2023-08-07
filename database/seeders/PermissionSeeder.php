@@ -28,8 +28,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update subordinate']);
         Permission::create(['name' => 'delete subordinate']);
         Permission::create(['name' => 'read subordinate']);
-
-        Permission::create(['name' => 'create own profile']);
+ 
         Permission::create(['name' => 'update own profile']);
         Permission::create(['name' => 'read own profile']);
 
@@ -47,8 +46,7 @@ class PermissionSeeder extends Seeder
         $role1->givePermissionTo('create requests');
         $role1->givePermissionTo('read requests');
         $role1->givePermissionTo('delete requests');
-        $role1->givePermissionTo('update requests');
-        $role1->givePermissionTo('create own profile');
+        $role1->givePermissionTo('update requests'); 
         $role1->givePermissionTo('read own profile');
         $role1->givePermissionTo('update own profile');
         $role1->givePermissionTo('create subordinate');
@@ -63,8 +61,7 @@ class PermissionSeeder extends Seeder
         $role4->givePermissionTo('create requests');
         $role4->givePermissionTo('read requests');
         $role4->givePermissionTo('delete requests');
-        $role4->givePermissionTo('update requests');
-        $role4->givePermissionTo('create own profile');
+        $role4->givePermissionTo('update requests'); 
         $role4->givePermissionTo('read own profile');
         $role4->givePermissionTo('update own profile');
         $role4->givePermissionTo('create subordinate');
@@ -75,8 +72,7 @@ class PermissionSeeder extends Seeder
         $role5 = Role::create(['name' => 'hod']);
         $role5->givePermissionTo('read other users');
         $role5->givePermissionTo('read subordinate');
-        $role5->givePermissionTo('update subordinate');
-        $role5->givePermissionTo('create own profile');
+        $role5->givePermissionTo('update subordinate'); 
         $role5->givePermissionTo('read own profile');
         $role5->givePermissionTo('update own profile');
         $role5->givePermissionTo('create requests');
@@ -85,8 +81,7 @@ class PermissionSeeder extends Seeder
         $role5->givePermissionTo('update requests');
 
         $role6 = Role::create(['name' => 'coordinator']);
-        $role6->givePermissionTo('read other users');
-        $role6->givePermissionTo('create own profile');
+        $role6->givePermissionTo('read other users'); 
         $role6->givePermissionTo('read own profile');
         $role6->givePermissionTo('update own profile');
         $role6->givePermissionTo('create requests');
@@ -101,8 +96,7 @@ class PermissionSeeder extends Seeder
         $role2->givePermissionTo('create requests');
         $role2->givePermissionTo('read requests');
         $role2->givePermissionTo('delete requests');
-        $role2->givePermissionTo('update requests');
-        $role2->givePermissionTo('create own profile');
+        $role2->givePermissionTo('update requests'); 
         $role2->givePermissionTo('read own profile');
         $role2->givePermissionTo('update own profile');
 
@@ -111,8 +105,7 @@ class PermissionSeeder extends Seeder
         // gets all permissions via Gate::before rule; see AuthServiceProvider        
 
         $role7 = Role::create(['name' => 'student']);
-        $role7->givePermissionTo('read other users');
-        $role7->givePermissionTo('create own profile');
+        $role7->givePermissionTo('read other users'); 
         $role7->givePermissionTo('read own profile');
         $role7->givePermissionTo('create requests');
         $role7->givePermissionTo('read requests');
@@ -124,6 +117,8 @@ class PermissionSeeder extends Seeder
         $role8->givePermissionTo('read requests');
         $role8->givePermissionTo('delete requests');
         $role8->givePermissionTo('update requests');
+        $role7->givePermissionTo('read own profile');
+        $role7->givePermissionTo('update own profile');
 
         $users = \App\Models\User::factory(10)->create();
 
