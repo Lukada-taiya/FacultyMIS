@@ -123,6 +123,162 @@
                                                     ></div>
                                                 </div>
                                             </div>
+                                            <div
+                                                v-if="form.role == 3"
+                                                class="sm:col-span-full mt-5"
+                                            >
+                                                <label
+                                                    for="department"
+                                                    class="block text-sm font-medium leading-6 text-gray-900"
+                                                    >Department:</label
+                                                >
+                                                <div class="mt-2">
+                                                    <div
+                                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                                    >
+                                                        <select
+                                                            v-model="form.department"
+                                                            name="department"
+                                                            id="department"
+                                                            autocomplete="department"
+                                                            class="capitalize block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                                selected
+                                                            >
+                                                                Select department...
+                                                            </option>
+
+                                                            <option
+                                                                class="capitalize"
+                                                                v-for="department of departments"
+                                                                :key="department.id"
+                                                                :value="department.id"
+                                                                :selected="
+                                                                    user.department
+                                                                "
+                                                            >
+                                                                {{ department.name }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div
+                                                        v-if="errors.department"
+                                                        v-text="
+                                                            errors.department
+                                                        "
+                                                        class="mt-1 font-bold text-sm text-red-500"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                v-if="form.role == 7"
+                                                class="sm:col-span-full mt-5"
+                                            >
+                                                <label
+                                                    for="programme"
+                                                    class="block text-sm font-medium leading-6 text-gray-900"
+                                                    >Programme</label
+                                                >
+                                                <div class="mt-2">
+                                                    <div
+                                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                                    >
+                                                        <select
+                                                            v-model="
+                                                                form.programme
+                                                            "
+                                                            name="programme"
+                                                            id="programme"
+                                                            autocomplete="programme"
+                                                            class="capitalize block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                                selected
+                                                            >
+                                                                Select
+                                                                programme...
+                                                            </option>
+
+                                                            <option
+                                                                class="capitalize"
+                                                                v-for="programme of programmes"
+                                                                :key="
+                                                                    programme.id
+                                                                "
+                                                                :value="
+                                                                    programme.id
+                                                                "
+                                                            >
+                                                                {{
+                                                                    programme.name
+                                                                }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div
+                                                        v-if="errors.programme"
+                                                        v-text="
+                                                            errors.programme
+                                                        "
+                                                        class="mt-1 font-bold text-sm text-red-500"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                v-if="form.role == 7"
+                                                class="sm:col-span-full mt-5"
+                                            >
+                                                <label
+                                                    for="level"
+                                                    class="block text-sm font-medium leading-6 text-gray-900"
+                                                    >Level</label
+                                                >
+                                                <div class="mt-2">
+                                                    <div
+                                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                                    >
+                                                        <select
+                                                            v-model="form.level"
+                                                            name="level"
+                                                            id="level"
+                                                            autocomplete="level"
+                                                            class="capitalize block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                                selected
+                                                            >
+                                                                Select level...
+                                                            </option>
+
+                                                            <option
+                                                                class="capitalize"
+                                                                v-for="level of levels"
+                                                                :key="level.id"
+                                                                :value="
+                                                                    level.id
+                                                                "
+                                                            >
+                                                                {{ level.name }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div
+                                                        v-if="errors.level"
+                                                        v-text="errors.level"
+                                                        class="mt-1 font-bold text-sm text-red-500"
+                                                    ></div>
+                                                </div>
+                                            </div>
                                             <div class="sm:col-span-full mt-5">
                                                 <label
                                                     for="password"
@@ -226,11 +382,21 @@ export default {
                 password: "",
                 password_confirmation: "",
                 role: this.user.role,
+                level: this.user.level,
+                programme: this.user.programme,
+                department: this.user.department,
             }),
         };
     },
     components: { AppLayout, Link },
-    props: { errors: Object, roles: Object, user: Object },
+    props: {
+        errors: Object,
+        roles: Object,
+        user: Object,
+        departments: Object,
+        programmes: Object,
+        levels: Object,
+    },
     methods: {
         submit() {
             //Validation

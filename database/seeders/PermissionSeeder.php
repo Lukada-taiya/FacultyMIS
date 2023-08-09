@@ -120,7 +120,7 @@ class PermissionSeeder extends Seeder
         $role7->givePermissionTo('read own profile');
         $role7->givePermissionTo('update own profile');
 
-        $users = \App\Models\User::factory(10)->create();
+        // $users = \App\Models\User::factory(10)->create();
 
         // dd($users);
         // foreach($users as $user) {

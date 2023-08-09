@@ -55,7 +55,7 @@ class RequestController extends Controller
     public function create(Request $request)
     {
         $thread_subject = "";
-        $user = null;
+        $user = "";
         if ($request->thread) {
             $thread_subject = 'Reply: ' . Thread::findOrFail($request->thread)->subject;
         }

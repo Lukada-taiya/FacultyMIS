@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\LevelsController;
+use App\Http\Controllers\ProgrammesController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\SemestersController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +69,11 @@ Route::get('/request/sent', function () {
     return Inertia::render('backend/requests/Sent');
 })->name('requests.sent');
 Route::resource('/requests', RequestController::class);
+Route::resource('/programmes', ProgrammesController::class);
+Route::resource('/levels', LevelsController::class);
+Route::resource('/semesters', SemestersController::class);
+Route::resource('/courses', CoursesController::class);
+Route::resource('/departments', DepartmentsController::class);
 
 require_once __DIR__ ."/fortify.php";
 require_once __DIR__ . "/jetstream.php";

@@ -14,7 +14,7 @@
                                 <span class="text-xl fad fa-arrow-left"></span>
                             </div>
                             <div class="ml-4">
-                                <h3>{{ thread['subject'] }}</h3>
+                                <h3>{{ thread["subject"] }}</h3>
                             </div>
                             <div>
                                 <a
@@ -39,7 +39,7 @@
                                 <div class="flex">
                                     <h5 class="font-bold">Date:</h5>
                                     <div class="ml-2">
-                                        {{ thread['created_at'] }}
+                                        {{ thread["created_at"] }}
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
 export default {
-    props: { thread: Array, sender: Object, message: String },
+    props: { thread: Object, sender: Object, message: String },
     components: {
         AppLayout,
         router,

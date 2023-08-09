@@ -15,10 +15,10 @@
                     :alt="thread.sender.name"
                 />
             </div>
-            <h1 class="ml-3 text-sm text-gray-50">
+            <h1 class="ml-3 text-sm text-gray-500">
                 {{ thread.sender.name }}
             </h1>
-            <p class="ml-6 flex-1 text-sm text-gray-50">
+            <p class="ml-6 flex-1 text-sm text-gray-500">
                 {{ thread.subject }}
             </p>
             <span

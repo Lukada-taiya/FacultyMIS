@@ -71,22 +71,24 @@
                                                             "
                                                             name="recipient"
                                                             id="recipient"
-                                                            autocomplete="email"
+                                                            autocomplete="recipient"
                                                             class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         >
                                                             <option
                                                                 value=""
-                                                                selected
                                                                 disabled
                                                                 hidden
+                                                                selected
                                                             >
                                                                 Select recipient
-                                                                of request
+                                                                of the
+                                                                request...
                                                             </option>
                                                             <option
                                                                 v-for="user in users"
                                                                 :key="user.id"
                                                                 :value="user.id"
+                                                                :selected="user"
                                                             >
                                                                 {{ user.name }}
                                                             </option>
@@ -176,10 +178,7 @@ export default {
     props: {
         users: Array,
         errors: Object,
-        user: {
-            type: String,
-            default: "",
-        },
+        user: String,
         subject: String,
     },
     methods: {
