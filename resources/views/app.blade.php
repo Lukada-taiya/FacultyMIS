@@ -11,7 +11,7 @@
    <link rel="preconnect" href="https://fonts.bunny.net">
    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
-   <link rel="stylesheet" href="/style.css" />
+   {{-- <link rel="stylesheet" href="/style.css" /> --}}
 
    <!-- Scripts -->
    @routes

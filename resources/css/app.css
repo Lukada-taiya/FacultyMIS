@@ -1,7 +1,16 @@
+
 @tailwind base;
 @tailwind components;
+@import  url("./external/prism");
+
+/* apply */ 
+@import url("apply");
+
+/* index */
+@import url("index/report-card");
+
 @tailwind utilities;
 
-[x-cloak] {
+[x-cloak] { 
     display: none;
 }

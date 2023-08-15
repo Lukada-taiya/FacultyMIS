@@ -1,0 +1,20 @@
+.badge {
+  padding: 2px 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem
+}
+
+.badge-primary {
+  --bg-opacity: 1;
+  background-color: #b2f5ea;
+  background-color: rgba(178, 245, 234, var(--bg-opacity));
+  border-width: 1px;
+  --border-opacity: 1;
+  border-color: #81e6d9;
+  border-color: rgba(129, 230, 217, var(--border-opacity));
+  --text-opacity: 1;
+  color: #319795;
+  color: rgba(49, 151, 149, var(--text-opacity));
+  border-radius: 0.25rem;
+  text-transform: lowercase
+}
