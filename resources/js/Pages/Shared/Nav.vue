@@ -31,15 +31,6 @@ export default {
 }
 </script>
 <style>
-body {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Raleway", "Arial", sans-serif;
-    line-height: 1.5;
-    color: #fff;
-    background-color: #950c0c;
-}
 
 header {
     font-size: small;

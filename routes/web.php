@@ -29,15 +29,15 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('frontend.home');
 
 Route::get('/about', function () {
     return Inertia::render('frontend/About');
-});
+})->name('frontend.about');
 
 Route::get('/contact', function () {
     return Inertia::render('frontend/Contact');
-});
+})->name('frontend.contact');
 
 // Route::get('/login', function () {
 //     return Inertia::render('frontend/Login');
@@ -45,7 +45,7 @@ Route::get('/contact', function () {
 
 Route::get('/notice-board', function () {
     return Inertia::render('frontend/NoticeBoard');
-});
+})->name('frontend.notice-board');
 
 Route::middleware([
     'auth:sanctum',

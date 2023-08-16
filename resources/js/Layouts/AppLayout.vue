@@ -16,7 +16,7 @@ export default {
 };
 </script>
 <!-- <style scoped> -->
-.report-card:hover .card { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0
+<!-- .report-card:hover .card { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0
 4px 6px -2px rgba(0, 0, 0, 0.05); --border-opacity: 1; border-color: #fff;
 border-color: rgba(255, 255, 255, var(--border-opacity)); transform:
 scale(1.01); } .report-card:hover .footer { padding: 0; border-width: 0; }
@@ -27,5 +27,5 @@ transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration:
 1px; --border-opacity: 1; border-color: #e2e8f0; border-color: rgba(226, 232,
 240, var(--border-opacity)); } .card .card-header { border-bottom-width: 1px;
 padding: 1.5rem; } .card .card-body { padding: 1.5rem; } .card .card-footer {
-border-top-width: 1px; padding: 1.5rem; }
+border-top-width: 1px; padding: 1.5rem; } -->
 <!-- </style> -->
