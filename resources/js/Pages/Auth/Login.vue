@@ -209,6 +209,22 @@ export default {
         },
     },
 };
+
+// const toggleShow = (isShow) => {
+//     if (isShow === "show") {
+//         this.$refs.password.type = "text";
+//         if (this.$refs.password_confirm !== null) {
+//             this.$refs.password_confirm.type = "text";
+//         }
+//         this.show = true;
+//     } else {
+//         this.$refs.password.type = "password";
+//         if (this.$refs.password_confirm !== null) {
+//             this.$refs.password_confirm.type = "password";
+//         }
+//         this.show = false;
+//     }
+// };
 </script>
 <style scoped>
 .section {

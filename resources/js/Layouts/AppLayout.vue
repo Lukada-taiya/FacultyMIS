@@ -1,10 +1,11 @@
 <template>
-    <Navbar />
-    <div class="h-screen flex flex-row flex-wrap">
-        <Sidebar />  
-            <slot /> 
-    </div>
-    <!-- end wrapper -->
+    <body class="text-gray-950">
+        <Navbar />
+        <div class="h-screen flex flex-row flex-wrap">
+            <Sidebar />
+            <slot />
+        </div> 
+    </body>
 </template>
 <!-- <script src="../Pages/assets/js/scripts.js"></script> -->
 <script>
@@ -15,6 +16,7 @@ export default {
     components: { Navbar, Sidebar },
 };
 </script>
+
 <!-- <style scoped> -->
 <!-- .report-card:hover .card { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0
 4px 6px -2px rgba(0, 0, 0, 0.05); --border-opacity: 1; border-color: #fff;
@@ -29,3 +31,4 @@ transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration:
 padding: 1.5rem; } .card .card-body { padding: 1.5rem; } .card .card-footer {
 border-top-width: 1px; padding: 1.5rem; } -->
 <!-- </style> -->
+

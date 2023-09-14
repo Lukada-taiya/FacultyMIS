@@ -1,5 +1,4 @@
-<template>
-    <Nav />
+<Nav />
     <main>
         <div class="left">
             <div class="heading">
@@ -20,16 +19,17 @@
         <div class="right">
             <div class="image">
                 <img src="../assets/home_pic.jpg" alt="home_pic" />
+
             </div>
-        </div>
-    </main>
+        </main> 
+        </FrontendLayout>
 </template>
-<script>
-import Nav from "../Shared/Nav.vue";
+<script> 
 import GradientText from "../Shared/ui/GradientText.vue";
 import BaseButton from "../Shared/ui/BaseButton.vue";
+import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 export default {
-    components: { BaseButton, Nav, GradientText },
+    components: { BaseButton, GradientText, FrontendLayout },
 };
 </script>
 <style scoped>
@@ -37,6 +37,7 @@ export default {
 main {
     margin-top: 3rem;
     position: relative;
+    height: 32rem;
 }
 
 .left {
@@ -50,7 +51,6 @@ main {
     margin-top: 3rem;
     margin-bottom: 2rem;
 }
-
 
 .left .call-action {
     font-size: small;

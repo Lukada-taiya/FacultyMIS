@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -146,6 +147,11 @@ class RequestController extends Controller
         } else {
             abort(403, 'Unauthorized Action');
         }
+        $users = User::all()->map(fn ($user) => [
+            'id' => $user->id,
+            'name' => $user->name
+        ]); 
+        return Inertia::render('backend/requests/Create', ['users' => $users]);
     }
 
     /**

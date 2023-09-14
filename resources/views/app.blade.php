@@ -25,9 +25,11 @@
    @inertiaHead
 </head>
 
+
 <body>
    @inertia
 </body>
 {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
+
 
 </html>

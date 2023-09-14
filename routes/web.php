@@ -40,7 +40,7 @@ Route::get('/contact', function () {
     return Inertia::render('frontend/Contact');
 })->name('frontend.contact');
 
-// Route::get('/login', function () {
+// Route::get('/login/test', function () {
 //     return Inertia::render('frontend/Login');
 // });
 

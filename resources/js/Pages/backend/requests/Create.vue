@@ -69,6 +69,7 @@
                                                             @change="
                                                                 populateThroughUsers
                                                             "
+                                                        <select
                                                             v-model="
                                                                 form.recipient
                                                             "
@@ -92,6 +93,16 @@
                                                                 :key="user.id"
                                                                 :value="user.id"
                                                                 :selected="user"
+                                                            >
+                                                                {{ user.name }}
+                                                            </option>
+                                                        </select>
+                                                            placeholder="Who are you making the request to..."
+                                                        >
+                                                            <option
+                                                                v-for="user of users"
+                                                                :key="user.id"
+                                                                :value="user.id"
                                                             >
                                                                 {{ user.name }}
                                                             </option>

@@ -1,33 +1,32 @@
 <template>
-    <Nav />
-    <main>
-        <div class="main">
-            <div class="title">
-                <gradient-text htype="h1">Notice Board</gradient-text>
-            </div>
-            <div class="section">
-                <div v-for="notice in notices" :key="index" class="note">
-                    <div class="note-title">{{ notice.title }}</div>
-                    <div class="note-date">{{ notice.date }}</div>
-                    <div class="note-author">
-                        <strong>From:</strong> {{ notice.author }}
-                    </div>
-                    <div class="note-content">
-                        {{ notice.details }}
+    <FrontendLayout>
+        <main>
+            <div class="main">
+                <div class="title">
+                    <gradient-text htype="h1">Notice Board</gradient-text>
+                </div>
+                <div class="section">
+                    <div v-for="notice in notices" :key="notice.title" class="note">
+                        <div class="note-title">{{ notice.title }}</div>
+                        <div class="note-date">{{ notice.date }}</div>
+                        <div class="note-author">
+                            <strong>From:</strong> {{ notice.author }}
+                        </div>
+                        <div class="note-content">
+                            {{ notice.details }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-    <Footer />
+        </main>
+    </FrontendLayout>
 </template>
 <script>
-import Nav from "../Shared/Nav.vue";
+import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 import GradientText from "../Shared/ui/GradientText.vue";
-import Footer from "../Shared/Footer.vue";
 
 export default {
-    components: { Nav, Footer, GradientText },
+    components: {GradientText, FrontendLayout },
     data() {
         return {
             notices: [
@@ -64,12 +63,12 @@ main {
 
 .main {
     display: inline-block;
-    margin-top: 2rem;    
+    margin-top: 2rem;
 }
 
 .section {
     text-align: left;
-    margin: 2rem 0;    
+    margin: 2rem 0;
 }
 
 .note {

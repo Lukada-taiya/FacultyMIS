@@ -6,12 +6,12 @@ export default {
 }
 </script>
 
-<template>
+<template> 
     <AppLayout> 
         <div class="bg-gray-100 flex-1 p-6 md:mt-16 grid grid-cols-8">
             <div class="col-span-6 col-start-2 p-6 bg-white shadow-sm mt-16" >
                 <h3 class="font-bold">Welcome, {{ auth.user.name }}</h3>
-            </div>
+            </div> 
         </div>
         <!-- <AppLayout title="Dashboard"> -->
         <!-- <template #header>
