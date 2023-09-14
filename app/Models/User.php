@@ -12,7 +12,10 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Cmgmyr\Messenger\Traits\Messagable;
-
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
 class User extends Authenticatable
 {
@@ -23,6 +26,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use LaravelPermissionToVueJS;
     use Messagable;
 
     /**
@@ -31,7 +35,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'level_id', 'programme_id'
     ];
 
     /**
@@ -63,4 +67,37 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(Level::class);
+    }
+
+    public function programme(): BelongsTo
+    {
+        return $this->belongsTo(Programme::class);
+    }
+
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class, 'lecturer_id');
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    function subordinate_lecturers()
+    {
+        $courses = new Collection();
+        foreach ($this->department->programmes as $program) {
+            $courses = $program->courses->merge($courses);
+        }
+        $lecturers = new Collection();
+        foreach ($courses as $course) {
+            $lecturers->push($course->lecturer);
+        }
+        return $lecturers;
+    }
 }

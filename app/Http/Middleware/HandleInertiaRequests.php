@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -13,8 +14,17 @@ class HandleInertiaRequests extends Middleware
      * @see https://inertiajs.com/server-side-setup#root-template
      * @var string
      */
-    protected $rootView = 'app';
+    // protected $rootView = 'app';
 
+    public function rootview(request $request)
+    {
+        $name = $request->route()->getName();
+        if(str_contains($name, 'frontend') || $name == 'register' || $name == 'login') {
+            return 'frontend';            
+        }else {
+            return 'app';
+        }
+    }
     /**
      * Determines the current asset version.
      *

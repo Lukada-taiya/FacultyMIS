@@ -66,14 +66,37 @@
                                                         class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
                                                         <select
+                                                            @change="
+                                                                populateThroughUsers
+                                                            "
+                                                        <select
                                                             v-model="
                                                                 form.recipient
                                                             "
-                                                            type="text"
                                                             name="recipient"
                                                             id="recipient"
-                                                            autocomplete="email"
+                                                            autocomplete="recipient"
                                                             class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                                selected
+                                                            >
+                                                                Select recipient
+                                                                of the
+                                                                request...
+                                                            </option>
+                                                            <option
+                                                                v-for="user in users"
+                                                                :key="user.id"
+                                                                :value="user.id"
+                                                                :selected="user"
+                                                            >
+                                                                {{ user.name }}
+                                                            </option>
+                                                        </select>
                                                             placeholder="Who are you making the request to..."
                                                         >
                                                             <option
@@ -90,6 +113,60 @@
                                                         v-text="
                                                             errors.recipient
                                                         "
+                                                        class="mt-1 font-bold text-sm text-red-500"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <SecondaryButton @click="addThroughInput">Add Through</SecondaryButton>
+                                            </div>
+                                            <div v-for="index in numOfThrough" :key="index" class="sm:col-span-full mt-5">
+                                                <label
+                                                    for="recipient"
+                                                    class="block text-sm font-medium leading-6 text-gray-900"
+                                                    >Through {{ index }}</label
+                                                >
+                                                <div class="mt-2">
+                                                    <div
+                                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                                    >
+                                                        <select 
+                                                            v-model="
+                                                                form.through[index]
+                                                            "
+                                                            :name="'through '+ index"
+                                                            :id="'through '+ index"
+                                                            autocomplete="through"
+                                                            class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                                selected
+                                                            >
+                                                                Select
+                                                                recipients the
+                                                                request will
+                                                                pass through...
+                                                            </option>
+                                                            <option
+                                                                v-for="tuser in through_users"
+                                                                :key="tuser.id"
+                                                                :value="
+                                                                    tuser.id
+                                                                "
+                                                                :selected="
+                                                                    tuser
+                                                                "
+                                                            >
+                                                                {{ tuser.name }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div
+                                                        v-if="errors.through"
+                                                        v-text="errors.through"
                                                         class="mt-1 font-bold text-sm text-red-500"
                                                     ></div>
                                                 </div>
@@ -153,27 +230,46 @@
 </template>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Link } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 export default {
+    props: {
+        users: Array,
+        errors: Object,
+        user: String,
+        subject: String,
+    },
     data() {
         return {
             form: {
-                subject: "",
-                recipient: "",
+                subject: this.subject,
+                recipient: this.user,
+                through: {},
                 body: "",
             },
+            through_users: this.users,
+            numOfThrough: 1
         };
     },
-    components: { AppLayout, Link },
-    props: { users: Object, errors: Object },
+    components: { AppLayout, Link, SecondaryButton },
     methods: {
+        addThroughInput() {
+            this.numOfThrough++;
+        },
+        populateThroughUsers() {
+            this.through_users = this.users.filter(
+                (user) => user.id !== this.form.recipient
+            );
+        },
         returnBack() {
             router.get("/requests");
         },
         submit() {
             //Validation
             // this.errors = "";
+            // alert(this.form);
+            // console.log(this.form.through);
             router.post("/requests", this.form);
         },
         onFilePicked(event) {

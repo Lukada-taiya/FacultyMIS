@@ -1,28 +1,25 @@
-<template> 
-        <FrontendLayout>
-        <main>
-            <div class="left">
-                <div class="heading">
-                    <GradientText htype="h1"
-                        >Management Information System - SCIS</GradientText
-                    >
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        nisl tincidunt eget. Lectus mauris eros in vitae .
-                    </p>
-                </div>
-                <div class="call-action">
-                    <base-button mode="radiant">LOGIN TO SYSTEM</base-button>
-                    <div class="pointer">
-                        <img src="../assets/pointer.png" alt="pointer" />
-                    </div>
+<Nav />
+    <main>
+        <div class="left">
+            <div class="heading">
+                <GradientText htype="h1">Management Information System - SCIS</GradientText>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore nisl
+                    tincidunt eget. Lectus mauris eros in vitae .
+                </p>
+            </div>
+            <div class="call-action">
+                <base-button to="/login" link mode="radiant">LOGIN TO SYSTEM</base-button>
+                <div class="pointer">
+                    <img src="../assets/pointer.png" alt="pointer" />
                 </div>
             </div>
-            <div class="right">
-                <div class="image">
-                    <img src="../assets/home_pic.jpg" alt="" />
-                </div>
+        </div>
+        <div class="right">
+            <div class="image">
+                <img src="../assets/home_pic.jpg" alt="home_pic" />
+
             </div>
         </main> 
         </FrontendLayout>

@@ -30,7 +30,8 @@ export default {
     components: {BaseButton, Link }
 }
 </script>
-<style scoped>
+<style>
+
 header {
     font-size: small;
     margin: 1.2rem 1.2rem 0 1.2rem;

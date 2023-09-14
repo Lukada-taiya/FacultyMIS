@@ -30,7 +30,7 @@
                 class="px-2 py-1 rounded-md text-sm font-bold"
                 v-text="messageType(thread.sender.id)"
             ></span>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm text-gray-500" >
                 {{ thread.created_at }}
             </p>
         </div>

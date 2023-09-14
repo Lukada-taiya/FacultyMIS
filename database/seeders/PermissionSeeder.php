@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Support\Str;
 
 class PermissionSeeder extends Seeder
 {
@@ -24,55 +25,244 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete other users']);
         Permission::create(['name' => 'read other users']);
 
+        // Permission::create(['name' => 'create subordinate']);
+        // Permission::create(['name' => 'update subordinate']);
+        // Permission::create(['name' => 'delete subordinate']);
+        // Permission::create(['name' => 'read subordinate']);
+
+        Permission::create(['name' => 'update own profile']);
+        Permission::create(['name' => 'read own profile']);
+
+        Permission::create(['name' => 'create requests']);
+        Permission::create(['name' => 'update requests']);
+        Permission::create(['name' => 'delete requests']);
+        Permission::create(['name' => 'read requests']);
+
+        Permission::create(['name' => 'create programmes']);
+        Permission::create(['name' => 'update programmes']);
+        Permission::create(['name' => 'delete programmes']);
+        Permission::create(['name' => 'read programmes']);
+
+        Permission::create(['name' => 'create own programmes']);
+        Permission::create(['name' => 'update own programmes']);
+        Permission::create(['name' => 'delete own programmes']);
+        Permission::create(['name' => 'read own programmes']);
+
+        Permission::create(['name' => 'create semesters']);
+        Permission::create(['name' => 'update semesters']);
+        Permission::create(['name' => 'delete semesters']);
+        Permission::create(['name' => 'read semesters']);
+
+        Permission::create(['name' => 'create levels']);
+        Permission::create(['name' => 'update levels']);
+        Permission::create(['name' => 'delete levels']);
+        Permission::create(['name' => 'read levels']);
+
+        Permission::create(['name' => 'create courses']);
+        Permission::create(['name' => 'update courses']);
+        Permission::create(['name' => 'delete courses']);
+        Permission::create(['name' => 'read courses']);
+
+        Permission::create(['name' => 'create own courses']);
+        Permission::create(['name' => 'update own courses']);
+        Permission::create(['name' => 'delete own courses']);
+        Permission::create(['name' => 'read own courses']);
+
+        Permission::create(['name' => 'create departments']);
+        Permission::create(['name' => 'update departments']);
+        Permission::create(['name' => 'delete departments']);
+        Permission::create(['name' => 'read departments']);
+
         // create roles and assign existing permissions
-        $role1 = Role::create(['name' => 'dean']);
-        $role1->givePermissionTo('create other users');
-        $role1->givePermissionTo('read other users');
-        $role1->givePermissionTo('delete other users');
-        $role1->givePermissionTo('update other users');
+        $role1 = Role::create(['name' => 'super-admin']);
+        $role1->givePermissionTo(Permission::all());
+        // gets all permissions via Gate::before rule; see AuthServiceProvider      
 
-        $role2 = Role::create(['name' => 'lecturer']);
-        $role2->givePermissionTo('create other users');
-        $role2->givePermissionTo('read other users');
-        $role2->givePermissionTo('delete other users');
-        $role2->givePermissionTo('update other users');
+        $role2 = Role::create(['name' => 'dean']);
+        $role2->givePermissionTo([
+            'read own profile', 'update own profile',
+            'create other users', 'read other users', 'update other users', 'delete other users',
+            'create requests', 'read requests', 'update requests', 'delete requests', 'read semesters', 'read levels',
+            'create courses', 'read courses', 'update courses', 'delete courses',
+            'create departments', 'read departments', 'update departments', 'delete departments',
+            'create programmes', 'read programmes', 'update programmes', 'delete programmes'
+        ]);
 
-        $role3 = Role::create(['name' => 'Super-Admin']);
-        // gets all permissions via Gate::before rule; see AuthServiceProvider
+        $role3 = Role::create(['name' => 'administrator']);
+        $role3->givePermissionTo([
+            'read own profile', 'update own profile',
+            'create other users', 'read other users', 'update other users', 'delete other users',
+            'create requests', 'read requests', 'update requests', 'delete requests',
+            'read semesters', 'read levels',
+            'create courses', 'read courses', 'update courses', 'delete courses',
+            'create departments', 'read departments', 'update departments', 'delete departments',
+            'create programmes', 'read programmes', 'update programmes', 'delete programmes'
+        ]);
 
-        $role4 = Role::create(['name' => 'administrator']);
-        $role4->givePermissionTo('read other users');
-        $role4->givePermissionTo('delete other users');
-        $role4->givePermissionTo('update other users');
+        $role4 = Role::create(['name' => 'hod']);
+        $role4->givePermissionTo([
+            'read own profile', 'update own profile',
+            'read other users',
+            'create requests', 'read requests', 'update requests', 'delete requests',
+            'read semesters', 'read levels',
+            "read courses",
+            'create own courses', 'read own courses', 'update own courses', 'delete own courses',
+            'read departments',
+            'read own programmes', 'create own programmes', 'update own programmes', 'delete own programmes'
+        ]);
 
-        $role5 = Role::create(['name' => 'hod']);
-        $role5->givePermissionTo('create other users');
-        $role5->givePermissionTo('read other users');
-        $role5->givePermissionTo('delete other users');
-        $role5->givePermissionTo('update other users');
+        $role5 = Role::create(['name' => 'coordinator']);
+        $role5->givePermissionTo([
+            'read own profile', 'update own profile',
+            'create requests', 'read requests', 'update requests', 'delete requests',
+            'read semesters', 'read levels',
+            'read courses',
+            'read own courses', 'create own courses', 'update own courses', 'delete own courses',
+            'read departments',
+            'read programmes',
+        ]);
 
-        $role6 = Role::create(['name' => 'coordinator']);
-        $role6->givePermissionTo('read other users');
+        $role6 = Role::create(['name' => 'lecturer']);
+        $role6->givePermissionTo([
+            'read own profile', 'update own profile',
+            'create requests', 'read requests', 'update requests', 'delete requests',
+            'read semesters', 'read levels',
+            'read courses',
+            'read departments',
+            'read programmes'
+        ]);
+
 
         $role7 = Role::create(['name' => 'student']);
+        $role7->givePermissionTo([
+            'read own profile', 'update own profile',
+            'create requests', 'read requests', 'update requests', 'delete requests',
+            'read semesters', 'read levels',
+            'read courses',
+            'read departments',
+            'read programmes'
+        ]);
+
+        $role8 = Role::create(['name' => 'guest']);
+        $role8->givePermissionTo([
+            'read own profile', 'update own profile',
+            'create requests', 'read requests', 'update requests', 'delete requests',
+            'read semesters', 'read levels',
+            'read courses',
+            'read departments',
+            'read programmes'
+        ]);
+
+        // $users = \App\Models\User::factory(10)->create();
+
+        // dd($users);
+        // foreach($users as $user) {
+        //     $user->assignRole(7);
+        // }
 
         // create demo users
-        // $user = \App\Models\User::factory()->create([
-        //     'name' => 'Example User',
-        //     'email' => 'test@example.com',
-        // ]);
-        // $user->assignRole($role1);
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Super Admin Mann',
+            'email' => 'superadmin@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role1);
 
-        // $user = \App\Models\User::factory()->create([
-        //     'name' => 'Example Admin User',
-        //     'email' => 'admin@example.com',
-        // ]);
-        // $user->assignRole($role2);
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Dean Mann',
+            'email' => 'dean@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role2);
 
-        // $user = \App\Models\User::factory()->create([
-        //     'name' => 'Example Super-Admin User',
-        //     'email' => 'superadmin@example.com',
-        // ]);
-        // $user->assignRole($role3);
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Administrator Mann',
+            'email' => 'admin@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role3);
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Hod Mann',
+            'email' => 'hod@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role4);
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Coordinator Mann',
+            'email' => 'coordinator@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role5);
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Lecturer Mann',
+            'email' => 'lecturer@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role6);
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Student Mann',
+            'email' => 'student@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role7);
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Guest Mann',
+            'email' => 'guest@cktutas.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+        $user->assignRole($role8);
     }
 }

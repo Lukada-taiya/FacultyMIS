@@ -1,14 +1,17 @@
-<script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
-import Welcome from "@/Components/Welcome.vue";
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"; 
+export default {
+    props: { auth: Object},
+    components: { AppLayout }
+}
 </script>
 
-<template>
-    <AppLayout>
-        <div
-            class="bg-gray-100 text-gray-950 flex-1 p-6 md:mt-16 grid grid-cols-8"
-        >
-            <div class="text-center">Welcome</div>
+<template> 
+    <AppLayout> 
+        <div class="bg-gray-100 flex-1 p-6 md:mt-16 grid grid-cols-8">
+            <div class="col-span-6 col-start-2 p-6 bg-white shadow-sm mt-16" >
+                <h3 class="font-bold">Welcome, {{ auth.user.name }}</h3>
+            </div> 
         </div>
         <!-- <AppLayout title="Dashboard"> -->
         <!-- <template #header>

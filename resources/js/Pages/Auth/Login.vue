@@ -1,16 +1,11 @@
-<template>    
-<FrontendLayout>
+<template>
+    <Nav />
     <main>
         <div class="section">
             <div class="form-container">
-                <div class="form-title text-gray-700 mb-3">
-                    <span>Sign in to your account</span>
-                </div>
-                <div
-                    v-if="status"
-                    class="mb-4 font-medium text-sm text-green-600"
-                >
-                    {{ status }}
+                <div class="form-title">
+                    <span v-if="login">Log In</span>
+                    <span v-else>Sign Up</span>
                 </div>
                 <form @submit.prevent="submit">
                     <div
@@ -18,8 +13,8 @@
                         v-text="$page.props.err"
                         class="errors"
                     ></div>
-                    <div class="form-item">
-                        <label id="label" for="email">Your email</label>
+                    <!-- <div class="form-item">
+                        <label for="email">Your email</label>
                         <input
                             v-model="form.email"
                             type="email"
@@ -28,28 +23,49 @@
                             required
                         />
                         <div
-                            v-if="form.errors.email"
-                            v-text="form.errors.email"
+                            v-if="$page.props.errors.email"
+                            v-text="$page.props.errors.email"
                             class="errors"
                         ></div>
+                    </div> -->
+                    <div v-if="login" class="form-desc">
+                        Don't have an account? 
+                        <Link href="/register">Sign Up</Link>
                     </div>
-                    <div class="form-item password">
-                        <label id="label" for="password">Password</label>
-                        <!-- <div
+                    <!-- <div v-else class="form-desc">
+                        Already have an account?
+                        <span @click="toggleLogin('login')">Login</span>
+                    </div> -->
+                    <div class="mt-4">
+                        <InputLabel
+                            class="text-left"
+                            for="email"
+                            value="Email"
+                        />
+                        <TextInput
+                            id="email"
+                            v-model="form.email"
+                            type="email"
+                            class="mt-1 block w-full"
+                            required
+                            autofocus
+                            autocomplete="username"
+                        />
+                        <InputError class="mt-2" :message="form.errors.email" />
+                    </div>
+                    <!-- <div class="form-item password">
+                        <label for="password">Password</label>
+                        <div
                             v-if="show"
                             @click="toggleShow('hide')"
-                            class="visible hidden"
+                            class="visible"
                         >
                             <img src="../assets/hide.svg" alt="hide" /> Hide
-                        </div>
-                        <div
-                            v-else
-                            @click="toggleShow('show')"
-                            class="visible hidden"
-                        >
+                        </div> -->
+                    <!-- <div v-else @click="toggleShow('show')" class="visible">
                             <img src="../assets/show.png" alt="show" /> Show
                         </div> -->
-                        <input
+                    <!-- <input
                             v-model="form.password"
                             ref="password"
                             name="password"
@@ -58,83 +74,140 @@
                             required
                         />
                         <div
-                            v-if="form.errors.password"
-                            v-text="form.errors.password"
+                            v-if="$page.props.errors.password"
+                            v-text="$page.props.errors.password"
                             class="errors"
                         ></div>
-                        <div class="flex justify">
-                            <div class="block mt-4">
-                                <label class="flex items-center">
-                                    <Checkbox
-                                        v-model:checked="form.remember"
-                                        name="remember"
-                                    />
-                                    <span class="ml-2 text-sm text-gray-600"
-                                        >Remember me</span
-                                    >
-                                </label>
-                            </div>
-                            <div class="mt-4">
-                                <!-- <Link
+                        <span v-if="login">Forgot your password</span>
+                    </div> -->
+                    <div class="mt-4">
+                        <InputLabel
+                            class="text-left"
+                            for="password"
+                            value="Password"
+                        />
+                        <TextInput
+                            id="password"
+                            v-model="form.password"
+                            type="password"
+                            class="mt-1 block w-full"
+                            required
+                            autocomplete="current-password"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.password"
+                        />
+                    </div>
+
+                    <div class="block mt-4">
+                        <label class="flex items-center">
+                            <Checkbox
+                                v-model:checked="form.remember"
+                                name="remember"
+                            />
+                            <span class="ml-2 text-sm text-gray-600"
+                                >Remember me</span
+                            >
+                        </label>
+                    </div>
+
+                    <!-- <div v-if="!login" class="form-item">
+                        <label for="password_confirm">Retype password</label>
+                        <input
+                            ref="password_confirm"
+                            name="password_confirm"
+                            id="password_confirm"
+                            type="password"
+                            required
+                        />
+                    </div> -->
+                    <div class="form-item text-right">
+                        <Link
                             v-if="canResetPassword"
                             :href="route('password.request')"
-                            >Forgot your password</Link
-                        > -->
-                                <Link
-                                    class="text-sm text-gray-600"
-                                    :href="route('password.request')"
-                                    >Forgot your password</Link
-                                >
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-item">
+                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Forgot your password?
+                        </Link>
                         <base-button
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                             type="submit"
                             name="submit"
-                            ><span>Login</span></base-button
+                            ><span v-if="login">Login</span
+                            ><span v-else>Sign Up</span></base-button
                         >
                     </div>
                 </form>
             </div>
         </div>
-    </main> 
-    </FrontendLayout>
+    </main>
+    <Footer />
 </template>
-<script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import AuthenticationCard from "@/Components/AuthenticationCard.vue";
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
-import Checkbox from "@/Components/Checkbox.vue";
-import BaseButton from "../Shared/ui/BaseButton.vue";
-import FrontendLayout from "@/Layouts/FrontendLayout.vue";
+<script>
 import Nav from "../Shared/Nav.vue";
 import Footer from "../Shared/Footer.vue";
+import BaseButton from "../Shared/ui/BaseButton.vue";
+import { Link, useForm } from "@inertiajs/vue3";
+import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import Checkbox from "@/Components/Checkbox.vue";
 
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-});
-
-const form = useForm({
-    email: "",
-    password: "",
-    remember: false,
-});
-
-const submit = () => {
-    form.transform((data) => ({
-        ...data,
-        remember: form.remember ? "on" : "",
-    })).post(route("login"), {
-        onFinish: () => form.reset("password"),
-    });
+export default {
+    props: { canResetPassword: Boolean, status: String },
+    components: {
+        Nav,
+        Footer,
+        BaseButton,
+        Link,
+        TextInput,
+        InputError,
+        InputLabel,
+        Checkbox,
+    },
+    data() {
+        return {
+            login: true,
+            show: false,
+            form: useForm({
+                email: "",
+                password: "",
+                remember: false,
+            }),
+        };
+    },
+    methods: {
+        toggleLogin(type) {
+            this.login = type === "login" ? true : false;
+        },
+        toggleShow(isShow) {
+            if (isShow === "show") {
+                this.$refs.password.type = "text";
+                if (this.$refs.password_confirm !== null) {
+                    this.$refs.password_confirm.type = "text";
+                }
+                this.show = true;
+            } else {
+                this.$refs.password.type = "password";
+                if (this.$refs.password_confirm !== null) {
+                    this.$refs.password_confirm.type = "password";
+                }
+                this.show = false;
+            }
+        },
+        submit() {
+            this.form
+                .transform((data) => ({
+                    ...data,
+                    remember: this.form.remember ? "on" : "",
+                }))
+                .post(route("login"), {
+                    onFinish: () => this.form.reset("password"),
+                });
+        },
+    },
 };
 
 // const toggleShow = (isShow) => {
@@ -153,11 +226,7 @@ const submit = () => {
 //     }
 // };
 </script>
-
 <style scoped>
-.justify {
-    justify-content: space-between;
-}
 .section {
     text-align: center;
     margin: 2rem 0;
@@ -175,20 +244,20 @@ const submit = () => {
 }
 
 .form-title {
-    font-size: 1rem;
-    /* font-weight: bold; */
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .form-desc {
     margin: 1rem 0;
 }
 
-.password #span,
+.password span,
 .form-desc span {
     text-decoration: underline;
 }
 
-.password #span,
+.password span,
 .form-desc span:hover,
 .form-item .visible {
     cursor: pointer;
@@ -220,18 +289,17 @@ const submit = () => {
     width: 25rem;
 }
 
-.form-item {
+/* .form-item {
     margin-bottom: 1rem;
     text-align: left;
-}
+} */
 
-.form-item #label {
+.form-item label {
     display: block;
     color: #444;
 }
 
-.form-item #email,
-.form-item #password,
+.form-item input,
 .form-item textarea {
     display: block;
     padding: 0.5rem;
@@ -240,8 +308,8 @@ const submit = () => {
     font: inherit;
     border-radius: 5px;
 }
-.form-item #email:focus,
-.form-item #password:focus,
+
+.form-item input:focus,
 .form-item textarea:focus {
     background-color: #f0e6fd;
     outline: none;
@@ -273,7 +341,7 @@ const submit = () => {
     position: relative;
 }
 
-.password #span {
+.password span {
     position: absolute;
     right: -1rem;
 }

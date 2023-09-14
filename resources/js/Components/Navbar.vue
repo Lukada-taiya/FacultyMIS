@@ -1,7 +1,7 @@
 <template>
     <!-- start navbar -->
     <div
-        class="bg-gray-500 md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap items-center bg-white p-6 border-b border-gray-300"
+        class="bg-gray-500 md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap justify-between items-center bg-white p-6 border-b border-gray-300"
     >
         <!-- logo -->
         <div class="flex-none w-56 flex flex-row items-center">
@@ -26,39 +26,8 @@
         <!-- navbar content -->
         <div
             id="navbar"
-            class="animated md:hidden md:fixed md:top-0 md:w-full md:left-0 md:mt-16 md:border-t md:border-b md:border-gray-200 md:p-10 md:bg-white flex-1 pl-3 flex flex-row flex-wrap justify-between items-center md:flex-col md:items-center"
+            class="animated md:hidden md:fixed md:top-0 md:w-full md:left-0 md:mt-16 md:border-t md:border-b md:border-gray-200 md:p-10 md:bg-white pl-3 flex flex-row flex-wrap items-center md:flex-col md:items-center"
         >
-            <!-- left -->
-            <div
-                class="text-gray-600 md:w-full md:flex md:flex-row md:justify-evenly md:pb-10 md:mb-10 md:border-b md:border-gray-200"
-            >
-                <Link
-                    class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
-                    :href="route('requests.index')"
-                    title="email"
-                    ><i class="fad fa-envelope-open-text"></i
-                ></Link>
-                <a
-                    class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
-                    href="#"
-                    title="email"
-                    ><i class="fad fa-comments-alt"></i
-                ></a>
-                <a
-                    class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
-                    href="#"
-                    title="email"
-                    ><i class="fad fa-check-circle"></i
-                ></a>
-                <a
-                    class="mr-2 transition duration-500 ease-in-out hover:text-gray-900"
-                    href="#"
-                    title="email"
-                    ><i class="fad fa-calendar-exclamation"></i
-                ></a>
-            </div>
-            <!-- end left -->
-
             <!-- right -->
             <div class="flex flex-row-reverse items-center">
                 <!-- user -->
@@ -107,30 +76,29 @@
                         <!-- item -->
                         <a
                             class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
-                            href="#"
+                            :href="route('requests.index')"
                         >
                             <i class="fad fa-inbox-in text-xs mr-1"></i>
-                            my inbox
+                            my requests
                         </a>
-                        <!-- end item -->
 
                         <!-- item -->
-                        <a
+                        <a v-if="is('student')"
                             class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
-                            href="#"
-                        >
-                            <i class="fad fa-badge-check text-xs mr-1"></i>
-                            tasks
-                        </a>
-                        <!-- end item -->
-
-                        <!-- item -->
-                        <a
-                            class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
-                            href="#"
+                            :href="route('courses.index')"
                         >
                             <i class="fad fa-comment-alt-dots text-xs mr-1"></i>
-                            chats
+                            my courses
+                        </a>
+                        <!-- end item -->
+                        <!-- item -->
+                        <a
+                            v-if="is('lecturer')"
+                            class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
+                            :href="route('courses.index')"
+                        >
+                            <i class="fad fa-comment-alt-dots text-xs mr-1"></i>
+                            my students
                         </a>
                         <!-- end item -->
 
@@ -477,7 +445,7 @@ export default {
         auth: Object,
     },
     computed: {
-        profilePic() { 
+        profilePic() {
             return "/img/user.svg";
         },
     },
@@ -503,8 +471,8 @@ export default {
             }
         },
         logout() {
-            router.post(route('logout'));
-        }
+            router.post(route("logout"));
+        },
     },
 };
 </script>
