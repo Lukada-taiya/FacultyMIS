@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -13,6 +12,8 @@ use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
 use Image;
 
 class RequestController extends Controller
@@ -53,6 +54,14 @@ class RequestController extends Controller
         } else {
             abort(403, 'Unauthorized Action');
         }
+    }
+
+    public function requestView(Request $request)
+    {
+        $pdf = Pdf::loadView('pdf.view', ['html' => $request->data]);
+        return $pdf->stream('test.pdf');
+        // dd('enet');        
+        // return Inertia::render('backend/requests/RequestView', ['html' => $data]);
     }
 
     /**
@@ -110,8 +119,8 @@ class RequestController extends Controller
                 $users = $users->merge($lecturers);
 
                 $programmes = $user->department->programmes;
-                foreach($programmes as $programme) {
-                    $students = $programme->users->map(fn($student) => [
+                foreach ($programmes as $programme) {
+                    $students = $programme->users->map(fn ($student) => [
                         'id' => $student->id,
                         'name' => $student->name
                     ]);
@@ -150,7 +159,7 @@ class RequestController extends Controller
         $users = User::all()->map(fn ($user) => [
             'id' => $user->id,
             'name' => $user->name
-        ]); 
+        ]);
         return Inertia::render('backend/requests/Create', ['users' => $users]);
     }
 
@@ -164,39 +173,47 @@ class RequestController extends Controller
                 'subject' => 'required|min:3|max:255',
                 'recipient' => 'required',
                 'through' => 'sometimes',
-                'body' => 'required|file|mimes:docx,doc,pdf'
+                'body' => 'required|min:10'
             ]);
             // dd($request_arr['through']);
-            $doc = $request->file('body');
-            $filename = now() . $doc->getClientOriginalName();
-            $location = storage_path('app/public/');
+            // $doc = $request->file('body');
+            // $filename = now() . $doc->getClientOriginalName();
+            // $location = storage_path('app/public/');
             // dd($location);
-            $doc->move($location, $filename);
+            // $doc->move($location, $filename);
+            // dd($request_arr['body']);
+            // $pdf = App::make('dompdf.wrapper');
+            // $pdf->loadHTML($request_arr['body']);
+            $pdf = Pdf::loadView('pdf.view', ['html' => $request_arr['body']]);
+            return $pdf->download('test.pdf');
+            // $pdf->stream("dompdf_out.pdf", array("Attachment" => false));
+            // exit(0);
+            // return redirect()->route('requests.view', ['data' => 'fdgfgf']);
+            // dd($request_arr['body']);
+            // return Inertia::render('backend/requests/RequestView', ['html' => $request_arr['body']]);
+            // $thread = Thread::create([
+            //     'subject' => $request_arr['subject'],
+            // ]);
+
+            // // Message
+            // Message::create([
+            //     'thread_id' => $thread->id,
+            //     'user_id' => Auth::id(),
+            //     'type' => 'file',
+            //     'body' => $filename,
+            // ]);
+            // // Sender
+            // Participant::create([
+            //     'thread_id' => $thread->id,
+            //     'user_id' => Auth::id(),
+            //     'type' => 'sender',            
+            //     'last_read' => new Carbon(),
+            // ]);
 
 
-            $thread = Thread::create([
-                'subject' => $request_arr['subject'],
-            ]);
+            // $thread->addParticipant($request_arr['recipient']);
 
-            // Message
-            Message::create([
-                'thread_id' => $thread->id,
-                'user_id' => Auth::id(),
-                'type' => 'file',
-                'body' => $filename,
-            ]);
-            // Sender
-            Participant::create([
-                'thread_id' => $thread->id,
-                'user_id' => Auth::id(),
-                'type' => 'sender',            
-                'last_read' => new Carbon(),
-            ]);
-
-
-            $thread->addParticipant($request_arr['recipient']);
-
-            return Redirect::route('requests.index');
+            // return Redirect::route('requests.index');
         } else {
             abort(403, 'Unauthorized Action');
         }

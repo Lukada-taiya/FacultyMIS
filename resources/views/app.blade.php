@@ -5,11 +5,13 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <script type="text/javascript">
-    window.Laravel = {
-        csrfToken: "{{ csrf_token() }}",
-        jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():0 !!}
-    }
-</script>
+      window.Laravel = {
+         csrfToken: "{{ csrf_token() }}",
+         jsPermissions: {!! auth()->check()
+             ? auth()->user()->jsPermissions()
+             : 0 !!}
+      }
+   </script>
 
    <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
@@ -19,7 +21,7 @@
    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
    {{-- <link rel="stylesheet" href="/style.css" /> --}}
 
-   <!-- Scripts -->
+   <!-- Scripts --> 
    @routes
    @vite(['resources/js/app.js', 'resources/sass/app.sass', "resources/js/Pages/{$page['component']}.vue"])
    @inertiaHead

@@ -69,7 +69,6 @@
                                                             @change="
                                                                 populateThroughUsers
                                                             "
-                                                        <select
                                                             v-model="
                                                                 form.recipient
                                                             "
@@ -97,16 +96,6 @@
                                                                 {{ user.name }}
                                                             </option>
                                                         </select>
-                                                            placeholder="Who are you making the request to..."
-                                                        >
-                                                            <option
-                                                                v-for="user of users"
-                                                                :key="user.id"
-                                                                :value="user.id"
-                                                            >
-                                                                {{ user.name }}
-                                                            </option>
-                                                        </select>
                                                     </div>
                                                     <div
                                                         v-if="errors.recipient"
@@ -118,9 +107,17 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <SecondaryButton @click="addThroughInput">Add Through</SecondaryButton>
+                                                <SecondaryButton
+                                                    @click="addThroughInput"
+                                                    >Add
+                                                    Through</SecondaryButton
+                                                >
                                             </div>
-                                            <div v-for="index in numOfThrough" :key="index" class="sm:col-span-full mt-5">
+                                            <div
+                                                v-for="index in numOfThrough"
+                                                :key="index"
+                                                class="sm:col-span-full mt-5"
+                                            >
                                                 <label
                                                     for="recipient"
                                                     class="block text-sm font-medium leading-6 text-gray-900"
@@ -130,12 +127,20 @@
                                                     <div
                                                         class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
-                                                        <select 
+                                                        <select
                                                             v-model="
-                                                                form.through[index]
+                                                                form.through[
+                                                                    index
+                                                                ]
                                                             "
-                                                            :name="'through '+ index"
-                                                            :id="'through '+ index"
+                                                            :name="
+                                                                'through ' +
+                                                                index
+                                                            "
+                                                            :id="
+                                                                'through ' +
+                                                                index
+                                                            "
                                                             autocomplete="through"
                                                             class="block p-3 flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                         >
@@ -172,25 +177,39 @@
                                                 </div>
                                             </div>
                                             <div class="sm:col-span-full mt-5">
-                                                <label
-                                                    for="body"
-                                                    class="block text-sm font-medium leading-6 text-gray-900"
-                                                    >Attach File</label
-                                                >
+                                                <div class="flex justify-between">
+                                                    <label
+                                                        class="block text-sm font-medium leading-6 text-gray-900"
+                                                        >Request</label
+                                                    >
+                                                    <div>
+                                                        <a
+                                                            target="_blank"
+                                                            :href="
+                                                                route(
+                                                                    'requests.view',
+                                                                    {
+                                                                        data: form.body,
+                                                                    }
+                                                                )
+                                                            "
+                                                            class="rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                        >
+                                                            Preview
+                                                        </a>
+                                                    </div>
+                                                </div>
                                                 <div class="mt-2">
                                                     <div
-                                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                                        class="rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
-                                                        <input
-                                                            @change="
-                                                                onFilePicked
+                                                        <ckeditor
+                                                            :editor="editor"
+                                                            v-model="form.body"
+                                                            :config="
+                                                                editorConfig
                                                             "
-                                                            type="file"
-                                                            name="body"
-                                                            id="body"
-                                                            autocomplete="body"
-                                                            class="block flex-1 border-0 bg-transparent p-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                        />
+                                                        ></ckeditor>
                                                     </div>
                                                     <div
                                                         v-if="errors.body"
@@ -233,6 +252,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Link } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
     props: {
         users: Array,
@@ -242,6 +262,10 @@ export default {
     },
     data() {
         return {
+            editor: ClassicEditor,
+            editorConfig: {
+                // The configuration of the editor.
+            },
             form: {
                 subject: this.subject,
                 recipient: this.user,
@@ -249,7 +273,7 @@ export default {
                 body: "",
             },
             through_users: this.users,
-            numOfThrough: 1
+            numOfThrough: 1,
         };
     },
     components: { AppLayout, Link, SecondaryButton },
@@ -270,18 +294,24 @@ export default {
             // this.errors = "";
             // alert(this.form);
             // console.log(this.form.through);
-            router.post("/requests", this.form);
-        },
-        onFilePicked(event) {
-            const files = event.target.files;
-            // let filename = files[0].name;
-            const fileReader = new FileReader();
-            fileReader.addEventListener("load", () => {
-                this.imageUrl = fileReader.result;
-            });
-            fileReader.readAsDataURL(files[0]);
-            this.form.body = files[0];
+            // router.post("/requests", this.form);
+            // router.get('/request-view/'+ 'this.form.body');
+            // onFilePicked(event) {
+            //     const files = event.target.files;
+            //     // let filename = files[0].name;
+            //     const fileReader = new FileReader();
+            //     fileReader.addEventListener("load", () => {
+            //         this.imageUrl = fileReader.result;
+            //     });
+            //     fileReader.readAsDataURL(files[0]);
+            //     this.form.body = files[0];
         },
     },
 };
 </script>
+<style>
+.ck-editor__editable_inline:not(.ck-comment__input *) {
+    height: 15rem;
+    overflow-y: auto;
+}
+</style>

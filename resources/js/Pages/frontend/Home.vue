@@ -1,39 +1,43 @@
-<Nav />
-    <main>
-        <div class="left">
-            <div class="heading">
-                <GradientText htype="h1">Management Information System - SCIS</GradientText>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore nisl
-                    tincidunt eget. Lectus mauris eros in vitae .
-                </p>
-            </div>
-            <div class="call-action">
-                <base-button to="/login" link mode="radiant">LOGIN TO SYSTEM</base-button>
-                <div class="pointer">
-                    <img src="../assets/pointer.png" alt="pointer" />
+<template>
+    <FrontendLayout> 
+        <main>
+            <div class="left">
+                <div class="heading">
+                    <GradientText htype="h1"
+                        >Management Information System - SCIS</GradientText
+                    >
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        nisl tincidunt eget. Lectus mauris eros in vitae .
+                    </p>
+                </div>
+                <div class="call-action">
+                    <base-button to="/login" link mode="radiant"
+                        >LOGIN TO SYSTEM</base-button
+                    >
+                    <div class="pointer">
+                        <img src="../assets/pointer.png" alt="pointer" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="right">
-            <div class="image">
-                <img src="../assets/home_pic.jpg" alt="home_pic" />
-
+            <div class="right">
+                <div class="image">
+                    <img src="../assets/home_pic.jpg" alt="home_pic" />
+                </div>
             </div>
-        </main> 
-        </FrontendLayout>
+        </main>
+    </FrontendLayout>
 </template>
-<script> 
+<script>
 import GradientText from "../Shared/ui/GradientText.vue";
 import BaseButton from "../Shared/ui/BaseButton.vue";
-import FrontendLayout from "@/Layouts/FrontendLayout.vue";
+import FrontendLayout from "@/Layouts/FrontendLayout.vue"; 
 export default {
-    components: { BaseButton, GradientText, FrontendLayout },
+    components: { BaseButton, GradientText, FrontendLayout},
 };
 </script>
 <style scoped>
-
 main {
     margin-top: 3rem;
     position: relative;

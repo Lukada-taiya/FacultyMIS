@@ -7,7 +7,6 @@ use App\Http\Controllers\ProgrammesController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SemestersController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\EnrollmentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,9 +39,6 @@ Route::get('/contact', function () {
     return Inertia::render('frontend/Contact');
 })->name('frontend.contact');
 
-// Route::get('/login/test', function () {
-//     return Inertia::render('frontend/Login');
-// });
 
 Route::get('/notice-board', function () {
     return Inertia::render('frontend/NoticeBoard');
@@ -63,14 +59,13 @@ Route::resource('/users', UsersController::class);
 // Route::get('/request/all', function () {
 //     return Inertia::render('backend/request/All');
 // })->name('requests.all');
+Route::get('/request-view', [RequestController::class, 'requestView'])->name('requests.view');
 Route::get('/request/received', function () {
     return Inertia::render('backend/requests/Received');
 })->name('requests.received');
 Route::get('/request/sent', function () {
     return Inertia::render('backend/requests/Sent');
 })->name('requests.sent');
-
-Route::get('/student/enroll', [EnrollmentController::class, 'get_enroll']);
 Route::resource('/requests', RequestController::class);
 Route::resource('/programmes', ProgrammesController::class);
 Route::resource('/levels', LevelsController::class);
@@ -78,5 +73,5 @@ Route::resource('/semesters', SemestersController::class);
 Route::resource('/courses', CoursesController::class);
 Route::resource('/departments', DepartmentsController::class);
 
-require_once __DIR__ ."/fortify.php";
+require_once __DIR__ . "/fortify.php";
 require_once __DIR__ . "/jetstream.php";
