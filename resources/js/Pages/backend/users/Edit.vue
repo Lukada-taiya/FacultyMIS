@@ -8,7 +8,7 @@
                             Create New User
                         </h3>
                         <p class="mt-1 mb-5 text-sm text-gray-600">
-                            Create a new user in the system
+                            Edit a user in the system
                         </p>
                     </div>
                     <div
@@ -124,7 +124,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                v-if="form.role == 3"
+                                                v-if="form.role == 4 || form.role == 5"
                                                 class="sm:col-span-full mt-5"
                                             >
                                                 <label

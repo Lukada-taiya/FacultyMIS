@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="call-action">
-                <base-button to="/login" mode="radiant">LOGIN TO SYSTEM</base-button>
+                <base-button to="/login" link mode="radiant">LOGIN TO SYSTEM</base-button>
                 <div class="pointer">
                     <img src="../assets/pointer.png" alt="pointer" />
                 </div>

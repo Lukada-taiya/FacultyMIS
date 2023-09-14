@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Programme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -12,19 +13,29 @@ class ProgrammesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'permission:read programmes|update programmes| create programmes | delete programmes']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $programmes = Programme::latest()->paginate(10)->through(fn ($programme) => [
-            'id' => $programme->id,
-            'name' => $programme->name,
-            'type' => $programme->type
-        ]);
-        return Inertia::render('backend/programmes/Index', ['programmes' => $programmes]);
+        if (auth()->user()->can('read programmes')) {
+            $programmes = Programme::latest()->paginate(10)->through(fn ($programme) => [
+                'id' => $programme->id,
+                'name' => $programme->name,
+                'type' => $programme->type,
+                'department' => $programme->department->id
+            ]);
+            // dd($programmes[0]->department);
+            $departments = Department::all()->map(fn ($department) => [
+                'id' => $department->id,
+                'name' => $department->name
+            ]);
+            return Inertia::render('backend/programmes/Index', ['programmes' => $programmes, 'departments' => $departments]);
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**
@@ -40,13 +51,19 @@ class ProgrammesController extends Controller
      */
     public function store(Request $request)
     {
-        $programme = $request->validate([
-            'name' => 'required|min:3',
-            'type' => 'required'
-        ]); 
+        if (auth()->user()->can('create programmes')) {
+            $programme = $request->validate([
+                'name' => 'required|min:3',
+                'type' => 'required',
+                'department_id' => 'required'
+            ]);
 
-        Programme::create($programme);
-        return Redirect::route('programmes.index');
+            $programme = Programme::create($programme);
+            // $programme->
+            return Redirect::route('programmes.index');
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**

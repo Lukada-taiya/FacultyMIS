@@ -27,8 +27,7 @@
         <div
             id="navbar"
             class="animated md:hidden md:fixed md:top-0 md:w-full md:left-0 md:mt-16 md:border-t md:border-b md:border-gray-200 md:p-10 md:bg-white pl-3 flex flex-row flex-wrap items-center md:flex-col md:items-center"
-        > 
-
+        >
             <!-- right -->
             <div class="flex flex-row-reverse items-center">
                 <!-- user -->
@@ -81,19 +80,20 @@
                         >
                             <i class="fad fa-inbox-in text-xs mr-1"></i>
                             my requests
-                        </a> 
+                        </a>
 
                         <!-- item -->
-                        <a
+                        <a v-if="is('student')"
                             class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
                             :href="route('courses.index')"
                         >
                             <i class="fad fa-comment-alt-dots text-xs mr-1"></i>
                             my courses
                         </a>
-                        <!-- end item --> 
+                        <!-- end item -->
                         <!-- item -->
-                        <a v-if="false"
+                        <a
+                            v-if="is('lecturer')"
                             class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out"
                             :href="route('courses.index')"
                         >
@@ -445,7 +445,7 @@ export default {
         auth: Object,
     },
     computed: {
-        profilePic() { 
+        profilePic() {
             return "/img/user.svg";
         },
     },
@@ -471,8 +471,8 @@ export default {
             }
         },
         logout() {
-            router.post(route('logout'));
-        }
+            router.post(route("logout"));
+        },
     },
 };
 </script>

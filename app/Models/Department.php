@@ -16,7 +16,11 @@ class Department extends Model
 
     public function hods(): HasMany
     {
-        return $this->hasMany(User::class, 'hod_id');
+        return $this->hasMany(User::class, 'department_id');
     }
 
+    public function programmes(): HasMany
+    {
+        return $this->hasMany(Programme::class);
+    }
 }

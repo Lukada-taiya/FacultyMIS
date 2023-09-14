@@ -11,18 +11,22 @@ class LevelsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'permission:read levels|update levels| create levels | delete levels']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $levels = Level::latest()->paginate(10)->through(fn ($level) => [
-            'id' => $level->id,
-            'name' => $level->name,
-        ]);
-        return Inertia::render('backend/levels/Index', ['levels' => $levels]);
+        if (auth()->user()->can('read levels')) {
+            $levels = Level::latest()->paginate(10)->through(fn ($level) => [
+                'id' => $level->id,
+                'name' => $level->name,
+            ]);
+            return Inertia::render('backend/levels/Index', ['levels' => $levels]);
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**
@@ -38,12 +42,16 @@ class LevelsController extends Controller
      */
     public function store(Request $request)
     {
-        $level = $request->validate([
-            'name' => 'required|min:3',
-        ]);
+        if (auth()->user()->can('create levels')) {
+            $level = $request->validate([
+                'name' => 'required|min:3',
+            ]);
 
-        Level::create($level);
-        return Redirect::route('levels.index');
+            Level::create($level);
+            return Redirect::route('levels.index');
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**

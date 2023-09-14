@@ -7,6 +7,7 @@ use App\Http\Controllers\ProgrammesController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SemestersController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\EnrollmentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -68,6 +69,8 @@ Route::get('/request/received', function () {
 Route::get('/request/sent', function () {
     return Inertia::render('backend/requests/Sent');
 })->name('requests.sent');
+
+Route::get('/student/enroll', [EnrollmentController::class, 'get_enroll']);
 Route::resource('/requests', RequestController::class);
 Route::resource('/programmes', ProgrammesController::class);
 Route::resource('/levels', LevelsController::class);

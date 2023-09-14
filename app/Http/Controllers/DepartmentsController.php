@@ -11,18 +11,22 @@ class DepartmentsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'permission:read departments|update departments| create departments | delete departments']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $departments = Department::latest()->paginate(10)->through(fn ($department) => [
-            'id' => $department->id,
-            'name' => $department->name,
-        ]);
-        return Inertia::render('backend/departments/Index', ['departments' => $departments]);
+        if (auth()->user()->can('read departments')) {
+            $departments = Department::latest()->paginate(10)->through(fn ($department) => [
+                'id' => $department->id,
+                'name' => $department->name,
+            ]);
+            return Inertia::render('backend/departments/Index', ['departments' => $departments]);
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**
@@ -38,12 +42,16 @@ class DepartmentsController extends Controller
      */
     public function store(Request $request)
     {
-        $department = $request->validate([
-            'name' => 'required|min:3',
-        ]);
+        if (auth()->user()->can('create departments')) {
+            $department = $request->validate([
+                'name' => 'required|min:3',
+            ]);
 
-        Department::create($department);
-        return Redirect::route('departments.index');
+            Department::create($department);
+            return Redirect::route('departments.index');
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**

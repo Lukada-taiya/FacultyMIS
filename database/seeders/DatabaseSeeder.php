@@ -28,5 +28,41 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        \App\Models\Semester::factory()->create([
+            'name' => 'First', 
+        ]);
+
+        \App\Models\Semester::factory()->create([
+            'name' => 'Second',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '100',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '200',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '300',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '400',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '500',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '600',
+        ]);
+
+        \App\Models\Level::factory()->create([
+            'name' => '700',
+        ]);
+
     }
 }

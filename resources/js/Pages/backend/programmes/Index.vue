@@ -14,15 +14,17 @@
                     <div
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
                     >
-                        <div class="mb-12">
+                        <div class="mb-12" v-if="can('create programmes')">
                             <div class="my-3">
                                 <h5 class="font-bold text-sm">
                                     Create new programme:
                                 </h5>
                             </div>
                             <form @submit.prevent="submit">
-                                <div class="flex justify-around items-baseline">
-                                    <div class="flex flex-col w-1/3">
+                                <div
+                                    class="flex flex-wrap gap-4 justify-around items-start"
+                                >
+                                    <div class="flex flex-col w-1/4">
                                         <div class="flex items-baseline">
                                             <InputLabel
                                                 class="mr-4"
@@ -43,7 +45,7 @@
                                             class="mt-2"
                                         />
                                     </div>
-                                    <div class="flex flex-col w-1/3">
+                                    <div class="flex flex-col w-1/4">
                                         <div
                                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                         >
@@ -63,9 +65,9 @@
                                                     Select type
                                                 </option>
 
-                                                <option 
+                                                <option
                                                     v-for="type in types"
-                                                    :key="type" 
+                                                    :key="type"
                                                     :selected="type"
                                                     :value="type"
                                                 >
@@ -75,6 +77,41 @@
                                         </div>
                                         <InputError
                                             :message="form.errors.type"
+                                            class="mt-2"
+                                        />
+                                    </div>
+                                    <div class="flex flex-col w-1/4">
+                                        <div
+                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                        >
+                                            <select
+                                                v-model="form.department_id"
+                                                name="department_id"
+                                                id="department_id"
+                                                autocomplete="department_id"
+                                                class="block p-3 flex-1 capitalize border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            >
+                                                <option
+                                                    value=""
+                                                    disabled
+                                                    hidden
+                                                    selected
+                                                >
+                                                    Select department
+                                                </option>
+
+                                                <option
+                                                    v-for="department in departments"
+                                                    :key="department"
+                                                    :selected="department.id"
+                                                    :value="department.id"
+                                                >
+                                                    {{ department.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <InputError
+                                            :message="form.errors.department"
                                             class="mt-2"
                                         />
                                     </div>
@@ -92,7 +129,10 @@
                             </form>
                         </div>
                         <div
-                            v-if="programmes.data.length !== 0"
+                            v-if="
+                                programmes.data.length !== 0 &&
+                                can('read programmes')
+                            "
                             class="relative overflow-x-auto"
                         >
                             <table
@@ -134,6 +174,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <Link
+                                                v-if="can('update programmes')"
                                                 class="text-yellow-700 font-bold"
                                                 :href="
                                                     route(
@@ -148,7 +189,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div v-else class="text-center">No programmes have been created yet.</div>
+                        <div v-else class="text-center">
+                            No programmes have been created yet.
+                        </div>
                         <div>
                             <div class="mt-6 display:inline-block">
                                 <Component
@@ -187,12 +230,13 @@ export default {
         TextInput,
         PrimaryButton,
     },
-    props: { programmes: Object },
+    props: { programmes: Object, departments: Object },
     data() {
         return {
             form: useForm({
                 name: "",
                 type: "",
+                department_id: "",
             }),
             types: [
                 "undergraduate",
@@ -206,7 +250,7 @@ export default {
     methods: {
         submit() {
             //validation
-            this.form.post("/programmes"); 
+            this.form.post("/programmes");
         },
     },
 };

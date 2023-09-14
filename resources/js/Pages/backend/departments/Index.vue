@@ -15,7 +15,7 @@
                     <div
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
                     >
-                        <div class="mb-12">
+                        <div class="mb-12" v-if="can('create departments')">
                             <div class="my-3">
                                 <h5 class="font-bold text-sm">
                                     Create new department:
@@ -58,7 +58,10 @@
                             </form>
                         </div>
                         <div
-                            v-if="departments.data.length !== 0"
+                            v-if="
+                                departments.data.length !== 0 &&
+                                can('read departments')
+                            "
                             class="relative overflow-x-auto"
                         >
                             <table
@@ -94,6 +97,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <Link
+                                                v-if="can('update departments')"
                                                 class="text-yellow-700 font-bold"
                                                 :href="
                                                     route(
@@ -108,7 +112,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div v-else class="text-center">No departments have been created yet.</div>
+                        <div v-else class="text-center">
+                            No departments have been created yet.
+                        </div>
                         <div>
                             <div class="mt-6 display:inline-block">
                                 <Component
@@ -157,7 +163,7 @@ export default {
     },
     methods: {
         submit() {
-            //validation 
+            //validation
             this.form.post("/departments");
         },
     },

@@ -33,4 +33,8 @@ class Course extends Model
     {
         return $this->belongsToMany(Programme::class, 'course_programme', 'course_id', 'programme_id')->withPivot('type');
     }
+
+    public function level() : BelongsTo {
+        return $this->belongsTo(Level::class, 'level_id');
+    }
 }

@@ -8,14 +8,13 @@
                             All Levels
                         </h3>
                         <p class="mt-1 mb-5 text-sm text-gray-600">
-                            Manage all the information of system levels
-                            here
+                            Manage all the information of system levels here
                         </p>
                     </div>
                     <div
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
                     >
-                        <div class="mb-12">
+                        <div v-if="can('create levels')" class="mb-12">
                             <div class="my-3">
                                 <h5 class="font-bold text-sm">
                                     Create new level:
@@ -58,7 +57,9 @@
                             </form>
                         </div>
                         <div
-                            v-if="levels.data.length !== 0"
+                            v-if="
+                                levels.data.length !== 0 && can('read levels')
+                            "
                             class="relative overflow-x-auto"
                         >
                             <table
@@ -94,6 +95,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <Link
+                                                v-if="can('update levels')"
                                                 class="text-yellow-700 font-bold"
                                                 :href="
                                                     route(
@@ -108,7 +110,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div v-else class="text-center">No levels have been created yet.</div>
+                        <div v-else class="text-center">
+                            No levels have been created yet.
+                        </div>
                         <div>
                             <div class="mt-6 display:inline-block">
                                 <Component
@@ -157,7 +161,7 @@ export default {
     },
     methods: {
         submit() {
-            //validation 
+            //validation
             this.form.post("/levels");
         },
     },

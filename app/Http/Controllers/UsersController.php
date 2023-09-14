@@ -20,12 +20,12 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'permission:read other users|update other users| create other users | delete other users']);
     }
 
     public function index()
     {
-        if (auth()->user()->hasPermissionTo('read other users')) {
+        if (auth()->user()->can('read other users')) {
             $users = User::latest()->paginate(15)->through(fn ($user) => [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -43,7 +43,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->hasPermissionTo('create other users')) {
+        if (auth()->user()->can('create other users')) {
             $roles = Role::all()->where('name', '<>', 'dean')->where('name', '<>', 'super-admin')->map(fn ($role) => [
                 'id' => $role->id,
                 'name' => $role->name

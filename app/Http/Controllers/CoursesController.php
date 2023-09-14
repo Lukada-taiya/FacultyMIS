@@ -15,31 +15,40 @@ class CoursesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'permission:read courses|update courses| create courses | delete courses']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $courses = Course::latest()->paginate(10)->through(fn ($course) => [
-            'id' => $course->id,
-            'name' => $course->name,
-            'code' => $course->code
-        ]);
-        $semesters = Semester::all()->map(fn ($semester) => [
-            'id' => $semester->id,
-            'name' => $semester->name
-        ]);
-        $programmes = Programme::all()->map(fn ($programme) => [
-            'id' => $programme->id,
-            'name' => $programme->name
-        ]);
-        $lecturers = User::role('lecturer')->get()->map(fn ($lecturer) => [
-            'id' => $lecturer->id,
-            'name' => $lecturer->name
-        ]);
-        return Inertia::render('backend/courses/Index', ['courses' => $courses, 'semesters' => $semesters, 'programmes' => $programmes, 'lecturers' => $lecturers]);
+        if (auth()->user()->can('read courses')) {
+            $courses = Course::latest()->paginate(10)->through(fn ($course) => [
+                'id' => $course->id,
+                'name' => $course->name,
+                'code' => $course->code
+            ]);
+            $semesters = Semester::all()->map(fn ($semester) => [
+                'id' => $semester->id,
+                'name' => $semester->name
+            ]);
+            $programmes = Programme::all()->map(fn ($programme) => [
+                'id' => $programme->id,
+                'name' => $programme->name
+            ]);
+            $lecturers = User::role('lecturer')->get()->map(fn ($lecturer) => [
+                'id' => $lecturer->id,
+                'name' => $lecturer->name
+            ]);
+            // array_filter($lecturers, function ($user) {
+            //     return $user->role == 'lecturer' || $user->role == 'hod' || $user->role == 'dean' || $user->role == 'coordinator';
+            // });
+
+
+            return Inertia::render('backend/courses/Index', ['courses' => $courses, 'semesters' => $semesters, 'programmes' => $programmes, 'lecturers' => $lecturers]);
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**
@@ -55,22 +64,26 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-        $course = $request->validate([
-            'name' => 'required|min:3',
-            'code' => 'required|min:3|unique:courses,code',
-            'semester' => 'required',
-            'lecturer' => 'required',  
-        ]);
-        $programmes = $request->addedPrograms;
-        $new_rel = [];
-        foreach($programmes as $program) { 
-            $new_rel[$program['programme']] = ['type' => $program['type']]; 
-        }    
-        $new_course = Course::create($course);
-        $new_course->lecturer_id = $course['lecturer'];
-        $new_course->semester_id = $course['semester'];
-        $new_course->programmes()->sync($new_rel);
-        return Redirect::route('courses.index');
+        if (auth()->user()->can('create courses')) {
+            $course = $request->validate([
+                'name' => 'required|min:3',
+                'code' => 'required|min:3|unique:courses,code',
+                'semester' => 'required',
+                'lecturer' => 'required',
+            ]);
+            $programmes = $request->addedPrograms;
+            $new_rel = [];
+            foreach ($programmes as $program) {
+                $new_rel[$program['programme']] = ['type' => $program['type']];
+            }
+            $new_course = Course::create($course);
+            $new_course->lecturer_id = $course['lecturer'];
+            $new_course->semester_id = $course['semester'];
+            $new_course->programmes()->sync($new_rel);
+            return Redirect::route('courses.index');
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
     }
 
     /**

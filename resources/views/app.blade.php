@@ -4,6 +4,12 @@
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script type="text/javascript">
+    window.Laravel = {
+        csrfToken: "{{ csrf_token() }}",
+        jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():0 !!}
+    }
+</script>
 
    <title inertia>{{ config('app.name', 'Laravel') }}</title>
 

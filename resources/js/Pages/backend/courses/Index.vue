@@ -14,7 +14,7 @@
                     <div
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
                     >
-                        <div class="mb-12">
+                        <div v-if="can('create courses')" class="mb-12">
                             <div class="my-3">
                                 <h5 class="font-bold text-sm">
                                     Create new course:
@@ -288,7 +288,7 @@
                             </form>
                         </div>
                         <div
-                            v-if="courses.data.length !== 0"
+                            v-if="courses.data.length !== 0 && can('read courses')"
                             class="relative overflow-x-auto"
                         >
                             <table
@@ -329,7 +329,7 @@
                                             {{ course.code }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <Link
+                                            <Link v-if="can('update courses')"
                                                 class="text-yellow-700 font-bold"
                                                 :href="
                                                     route(
