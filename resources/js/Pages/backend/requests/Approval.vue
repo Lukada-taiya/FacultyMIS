@@ -15,24 +15,20 @@
                     :alt="thread.sender.name"
                 />
             </div>
-            <h1
-                class="ml-3 text-sm"
+            <h1 class="ml-3 text-sm"
                 :class="[
                     thread.isUnread
                         ? 'text-gray-800 font-bold'
                         : 'text-gray-500',
-                ]"
-            >
+                ]">
                 {{ thread.sender.name }}
             </h1>
-            <p
-                class="ml-6 flex-1 text-sm"
+            <p class="ml-6 flex-1 text-sm"
                 :class="[
                     thread.isUnread
                         ? 'text-gray-800 font-bold'
                         : 'text-gray-500',
-                ]"
-            >
+                ]">
                 {{ thread.subject }}
             </p>
             <span
@@ -44,21 +40,19 @@
                 class="px-2 py-1 rounded-md text-sm font-bold"
                 v-text="messageType(thread)"
             ></span>
-            <p
-                class="text-sm"
+            <p  class="text-sm"
                 :class="[
                     thread.isUnread
                         ? 'text-gray-800 font-bold'
                         : 'text-gray-500',
-                ]"
-            >
+                ]">
                 {{ thread.created_at }}
             </p>
         </div>
         <!-- message -->
     </div>
     <div class="text-sm text-gray-500 text-center" v-else>
-        You have no requests yet. Click Compose to create a new request.
+        You have no pending approvals yet.
     </div>
 </template>
 <script>
@@ -73,7 +67,6 @@ export default {
     },
     methods: {
         openRequest(thread) {
-            // console.log(thread.approval);
             router.get(
                 "/requests/" +
                     thread.id +

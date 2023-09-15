@@ -290,21 +290,8 @@ export default {
             router.get("/requests");
         },
         submit() {
-            //Validation
-            // this.errors = "";
-            // alert(this.form);
-            // console.log(this.form.through);
-            // router.post("/requests", this.form);
-            // router.get('/request-view/'+ 'this.form.body');
-            // onFilePicked(event) {
-            //     const files = event.target.files;
-            //     // let filename = files[0].name;
-            //     const fileReader = new FileReader();
-            //     fileReader.addEventListener("load", () => {
-            //         this.imageUrl = fileReader.result;
-            //     });
-            //     fileReader.readAsDataURL(files[0]);
-            //     this.form.body = files[0];
+            //Validation 
+            router.post("/requests", this.form); 
         },
     },
 };

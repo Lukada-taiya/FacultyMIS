@@ -42,7 +42,7 @@ class Message extends Eloquent
    */
   public function __construct(array $attributes = [])
   {
- 
+
     $this->table = Models::table('messages');
 
     parent::__construct($attributes);

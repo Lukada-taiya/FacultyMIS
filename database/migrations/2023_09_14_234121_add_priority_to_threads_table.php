@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('messages', function (Blueprint $table) {
-            $table->string('type')->after('body');            
+        Schema::table('threads', function (Blueprint $table) {
+            $table->string('priority')->after('subject')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('messages', function (Blueprint $table) {
-            $table->dropColumn('type');
+        Schema::table('threads', function (Blueprint $table) {
+            $table->dropColumn('priority');
         });
     }
 };

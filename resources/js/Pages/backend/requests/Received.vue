@@ -3,7 +3,7 @@
         <!-- message -->
 
         <div
-            @click="openRequest(thread.id)"
+            @click="openRequest(thread)"
             v-for="thread in customThreads"
             :key="thread.id"
             class="cursor-pointer flex items-center shadow-xs transition-all duration-300 ease-in-out p-5 hover:shadow-md"
@@ -15,22 +15,43 @@
                     :alt="thread.sender.name"
                 />
             </div>
-            <h1 class="ml-3 text-sm" :class="[thread.isUnread ? 'text-gray-800 font-bold' : 'text-gray-500']">
+            <h1
+                class="ml-3 text-sm"
+                :class="[
+                    thread.isUnread
+                        ? 'text-gray-800 font-bold'
+                        : 'text-gray-500',
+                ]"
+            >
                 {{ thread.sender.name }}
             </h1>
-            <p class="ml-6 flex-1 text-sm" :class="[thread.isUnread ? 'text-gray-800 font-bold' : 'text-gray-500']">
+            <p
+                class="ml-6 flex-1 text-sm"
+                :class="[
+                    thread.isUnread
+                        ? 'text-gray-800 font-bold'
+                        : 'text-gray-500',
+                ]"
+            >
                 {{ thread.subject }}
             </p>
             <span
                 :class="
-                    messageType(thread.sender.id) === 'Sent:'
+                    messageType(thread) === 'Sent:'
                         ? 'text-red-700'
                         : 'text-green-700'
                 "
                 class="px-2 py-1 rounded-md text-sm font-bold"
-                v-text="messageType(thread.sender.id)"
+                v-text="messageType(thread)"
             ></span>
-            <p class="text-sm" :class="[thread.isUnread ? 'text-gray-800 font-bold' : 'text-gray-500']">
+            <p
+                class="text-sm"
+                :class="[
+                    thread.isUnread
+                        ? 'text-gray-800 font-bold'
+                        : 'text-gray-500',
+                ]"
+            >
                 {{ thread.created_at }}
             </p>
         </div>
@@ -51,13 +72,21 @@ export default {
         };
     },
     methods: {
-        openRequest(id) {
-            router.get("/requests/" + id);
+        openRequest(thread) {
+            router.get(
+                "/requests/" +
+                    thread.id +
+                    "?approvalRequest=" +
+                    thread.approval
+            );
         },
-        messageType(id) {
-            if (this.user.id === id) {
+        messageType(thread) {
+            if (this.user.id === thread.sender.id) {
                 return "Sent:";
-            } else {
+            } else if (
+                this.user.id != thread.sender.id &&
+                thread.approval === null
+            ) {
                 return "Received:";
             }
         },

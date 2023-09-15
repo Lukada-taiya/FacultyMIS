@@ -60,6 +60,8 @@ Route::resource('/users', UsersController::class);
 //     return Inertia::render('backend/request/All');
 // })->name('requests.all');
 Route::get('/request-view', [RequestController::class, 'requestView'])->name('requests.view');
+// Route::get('/pdf-preview', [RequestController::class, 'previewPdf'])->name('requests.preview');
+Route::get('/requests/approve', [RequestController::class, 'approveRequest'])->name('requests.approve');
 Route::get('/request/received', function () {
     return Inertia::render('backend/requests/Received');
 })->name('requests.received');
