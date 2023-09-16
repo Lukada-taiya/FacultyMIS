@@ -18,6 +18,16 @@
                             </div>
                             <div>
                                 <a
+                                    v-if="
+                                        sender.id === $page.props.auth.user.id
+                                    "
+                                    class="text-white mr-1 bg-yellow-600 rounded-md p-2 px-6 inline-block w-24"
+                                    :href="
+                                        route('requests.edit', thread['id'])
+                                    "
+                                    >Edit</a
+                                >
+                                <a
                                     v-if="approved === 'null'"
                                     class="text-white bg-green-500 rounded-md p-2 px-6 inline-block w-24"
                                     :href="
@@ -34,7 +44,6 @@
                                     :href="
                                         route('requests.approve', {
                                             thread: thread['id'],
-                                            remark: remark,
                                         })
                                     "
                                     >Approve</a
@@ -75,7 +84,14 @@
                                 <!-- {{ message }} -->
                             </div>
                             <div class="mt-8" v-if="!!this.remarks">
-                                <div class="font-bold text-sm mb-4">
+                                <CommentBox @post="submit" :thread="thread.id">
+                                    <Comment
+                                        v-for="rem of remarks"
+                                        :data="rem"
+                                        :key="rem"
+                                    />
+                                </CommentBox>
+                                <!-- <div class="font-bold text-sm mb-4">
                                     Remarks
                                 </div>
                                 <div
@@ -92,10 +108,10 @@
                                     </div>
                                     <div>
                                         {{ rem.body }}
-                                    </div>
-                                </div>
+                                    </div> -->
+                                <!-- </div> -->
                             </div>
-                            <div v-if="approved !== 'null'">
+                            <!-- <div>
                                 <label
                                     class="font-bold text-sm mb-8"
                                     for="remark"
@@ -114,7 +130,7 @@
                                         rows="5"
                                     ></textarea>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -125,6 +141,8 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
+import CommentBox from "@/Components/CommentBox.vue";
+import Comment from "@/Components/Comment.vue";
 export default {
     props: {
         thread: Object,
@@ -135,7 +153,8 @@ export default {
     },
     components: {
         AppLayout,
-        router,
+        Comment,
+        CommentBox,
     },
     data() {
         return {
@@ -145,6 +164,9 @@ export default {
     methods: {
         returnBack() {
             router.get("/requests");
+        },
+        submit(e) {
+            router.post("/remarks/add", e);
         },
     },
 };

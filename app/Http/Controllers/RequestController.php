@@ -85,13 +85,20 @@ class RequestController extends Controller
         return $pdf->stream('preview.pdf');
     }
 
-    public function previewPdf(Request $request)
+    public function addRemark(Request $request)
     {
-        $file = public_path('storage/' . $request->file);
-        $pdf = Pdf::loadFile($file);
-        dd($pdf);
-        // return $pdf->stream('preview.pdf');
-        // return PDF::setOptions(['logOutputFile' => null,])->loadFile($file)->stream('preview.pdf');
+        $results = $request->validate([
+            'threadId' => 'required',
+            'remark' => 'required'
+        ]);
+        // dd($results);
+
+        Message::create([
+            'thread_id' => $results['threadId'],
+            'user_id' => Auth::user()->id,
+            'body' => $results['remark'],
+            'type' => 'remark',
+        ]);
     }
 
     /**
@@ -183,10 +190,10 @@ class RequestController extends Controller
                 $users = $users->merge($deans);
             }
             if ($roles->contains('administrator') || $roles->contains('dean')) {
-                $users = User::role(['dean','administrator','coordinator','hod','lecturer','student','guest'])->get()->map(fn ($user) => [
+                $users = User::role(['dean', 'administrator', 'coordinator', 'hod', 'lecturer', 'student', 'guest'])->get()->map(fn ($user) => [
                     'id' => $user->id,
                     'name' => $user->name
-                ]); 
+                ]);
             }
             return Inertia::render('backend/requests/Create', ['users' => $users, 'subject' => $thread_subject, 'user' => $request->user]);
         } else {
@@ -247,7 +254,7 @@ class RequestController extends Controller
                         'thread_id' => $thread->id,
                         'user_id' => $approver,
                         'type' => 'approver',
-                        'approve_priority' => $count, 
+                        'approve_priority' => $count,
                     ]);
                     $count++;
                 }
@@ -256,7 +263,7 @@ class RequestController extends Controller
             Participant::create([
                 'thread_id' => $thread->id,
                 'user_id' => $request_arr['recipient'],
-                'type' => 'receiver', 
+                'type' => 'receiver',
             ]);
 
             // $thread->addParticipant($request_arr['recipient']);
@@ -283,15 +290,6 @@ class RequestController extends Controller
                     $thread->priority++;
                     $thread->save();
                 }
-            }
-
-            if (trim($request->remark) != "") {
-                Message::create([
-                    'thread_id' => $thread->id,
-                    'user_id' => $user,
-                    'body' => trim($request->remark),
-                    'type' => 'remark',
-                ]);
             }
 
             if ($thread->isUnread($user)) {
@@ -346,8 +344,10 @@ class RequestController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+    { 
+        $message_col = Message::where('thread_id', $id)->where('type', 'file')->first(); 
+        $message = ['id' => $message_col->id, 'body' => $message_col->body];
+        return Inertia::render('backend/requests/Edit',['message' => $message]);
     }
 
     /**
@@ -355,7 +355,15 @@ class RequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $result = $request->validate([
+            'body' => 'required|min:5'
+        ]);
+        $message = Message::findOrFail($id);
+
+        $message->body = $result['body'];
+        $message->save();
+
+        return Redirect::route('requests.index');
     }
 
     /**

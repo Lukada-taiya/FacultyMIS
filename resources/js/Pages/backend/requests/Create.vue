@@ -177,7 +177,9 @@
                                                 </div>
                                             </div>
                                             <div class="sm:col-span-full mt-5">
-                                                <div class="flex justify-between">
+                                                <div
+                                                    class="flex justify-between"
+                                                >
                                                     <label
                                                         class="block text-sm font-medium leading-6 text-gray-900"
                                                         >Request</label
@@ -233,6 +235,10 @@
                                         Cancel
                                     </button>
                                     <button
+                                        :class="{
+                                            'opacity-25': form.processing,
+                                        }"
+                                        :disabled="form.processing"
                                         type="submit"
                                         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
@@ -250,9 +256,27 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
+import { Alignment } from "@ckeditor/ckeditor5-alignment";
+import { Essentials } from "@ckeditor/ckeditor5-essentials";
+import { FindAndReplace } from "@ckeditor/ckeditor5-find-and-replace";
+import {
+    Bold,
+    Italic,
+    Underline,
+    Strikethrough,
+    Subscript,
+    Superscript,
+} from "@ckeditor/ckeditor5-basic-styles";
+import { Font } from "@ckeditor/ckeditor5-font";
+import { Link as Link1 } from "@ckeditor/ckeditor5-link";
+import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
+import { Heading } from "@ckeditor/ckeditor5-heading";
+import { PasteFromOffice } from "@ckeditor/ckeditor5-paste-from-office";
+import { List } from "@ckeditor/ckeditor5-list";
+import { Indent, IndentBlock } from "@ckeditor/ckeditor5-indent";
 export default {
     props: {
         users: Array,
@@ -264,14 +288,56 @@ export default {
         return {
             editor: ClassicEditor,
             editorConfig: {
-                // The configuration of the editor.
+                plugins: [
+                    Essentials,
+                    Bold,
+                    Italic,
+                    Paragraph,
+                    Underline,
+                    Strikethrough,
+                    Subscript,
+                    Superscript,
+                    Alignment,
+                    FindAndReplace,
+                    Font,
+                    Heading,
+                    PasteFromOffice,
+                    List,
+                    Link1,
+                    Indent,
+                    IndentBlock,
+                ],
+                toolbar: {
+                    items: [
+                        "undo",
+                        "redo",
+                        "|",
+                        "bold",
+                        "italic",
+                        "underline",
+                        "fontSize",
+                        "fontFamily",
+                        "|",
+                        "alignment",
+                        "heading",
+                        "bulletedList",
+                        "numberedList",
+                        "indent",
+                        "outdent",
+                        "link",
+                        "findAndReplace",
+                        "strikethrough",
+                        "subscript",
+                        "superscript",
+                    ],
+                },
             },
-            form: {
+            form: useForm({
                 subject: this.subject,
                 recipient: this.user,
                 through: {},
                 body: "",
-            },
+            }),
             through_users: this.users,
             numOfThrough: 1,
         };
@@ -290,8 +356,8 @@ export default {
             router.get("/requests");
         },
         submit() {
-            //Validation 
-            router.post("/requests", this.form); 
+            //Validation
+            router.post("/requests", this.form);
         },
     },
 };

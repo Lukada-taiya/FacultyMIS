@@ -11,14 +11,34 @@
                         issues with this school. You will receive a reply in
                         your email in a few hours.
                     </div>
-                    <form action="/contact" method="post">
+                    <form @submit.prevent="submit()">
                         <div class="form-item">
                             <label for="email">Your email</label>
-                            <input type="email" id="email" name="email" />
+                            <input
+                                v-model="form.email"
+                                type="email"
+                                id="email"
+                                name="email"
+                            />
+                            <div
+                                v-if="errors.email"
+                                v-text="errors.email"
+                                class="mt-1 font-bold text-sm text-red-500"
+                            ></div>
                         </div>
                         <div class="form-item">
                             <label for="message">Message</label>
-                            <textarea name="message" id="message" rows="5" />
+                            <textarea
+                                v-model="form.message"
+                                name="message"
+                                id="message"
+                                rows="5"
+                            />
+                            <div
+                                v-if="errors.message"
+                                v-text="errors.message"
+                                class="mt-1 font-bold text-sm text-red-500"
+                            ></div>
                         </div>
                         <div class="form-item">
                             <base-button type="submit" name="submit"
@@ -35,9 +55,24 @@
 import GradientText from "../Shared/ui/GradientText.vue";
 import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 import BaseButton from "../Shared/ui/BaseButton.vue";
+import { router } from "@inertiajs/vue3";
 
 export default {
+    props: { errors: Object },
+    data() {
+        return {
+            form: {
+                email: "",
+                message: "",
+            },
+        };
+    },
     components: { GradientText, BaseButton, FrontendLayout },
+    methods: {
+        submit() {
+            router.post("/contact", this.form);
+        },
+    },
 };
 </script>
 <style scoped>

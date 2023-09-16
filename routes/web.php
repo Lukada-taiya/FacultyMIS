@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\LevelsController;
+use App\Http\Controllers\NoticesController;
 use App\Http\Controllers\ProgrammesController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SemestersController;
 use App\Http\Controllers\UsersController;
+use App\Models\Notice;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,7 +45,15 @@ Route::get('/contact', function () {
 
 
 Route::get('/notice-board', function () {
-    return Inertia::render('frontend/NoticeBoard');
+    $notices = Notice::latest()->get()->map(fn($notice) => [
+        'id' => $notice->id,
+        'title' => $notice->title,
+        'from' => $notice->from,
+        'body' => $notice->body
+    ]);
+    return Inertia::render('frontend/NoticeBoard', [
+        'notices' => $notices
+    ]);
 })->name('frontend.notice-board');
 
 Route::middleware([
@@ -54,13 +66,15 @@ Route::middleware([
     })->name('dashboard');
 });
 
+Route::post('/contact', [FrontendController::class, 'contact']);
+
 Route::resource('/users', UsersController::class);
 
 // Route::get('/request/all', function () {
 //     return Inertia::render('backend/request/All');
 // })->name('requests.all');
 Route::get('/request-view', [RequestController::class, 'requestView'])->name('requests.view');
-// Route::get('/pdf-preview', [RequestController::class, 'previewPdf'])->name('requests.preview');
+Route::post('/remarks/add', [RequestController::class, 'addRemark'])->name('requests.addremarks');
 Route::get('/requests/approve', [RequestController::class, 'approveRequest'])->name('requests.approve');
 Route::get('/request/received', function () {
     return Inertia::render('backend/requests/Received');
@@ -74,6 +88,8 @@ Route::resource('/levels', LevelsController::class);
 Route::resource('/semesters', SemestersController::class);
 Route::resource('/courses', CoursesController::class);
 Route::resource('/departments', DepartmentsController::class);
+Route::resource('/contacts', ContactController::class);
+Route::resource('/notices', NoticesController::class);
 
 require_once __DIR__ . "/fortify.php";
 require_once __DIR__ . "/jetstream.php";

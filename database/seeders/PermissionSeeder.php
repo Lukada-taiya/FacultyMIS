@@ -25,8 +25,8 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete other users']);
         Permission::create(['name' => 'read other users']);
 
-        // Permission::create(['name' => 'create subordinate']);
-        // Permission::create(['name' => 'update subordinate']);
+        Permission::create(['name' => 'read contacts']);
+        Permission::create(['name' => 'read notices']);
         // Permission::create(['name' => 'delete subordinate']);
         // Permission::create(['name' => 'read subordinate']);
 
@@ -80,6 +80,7 @@ class PermissionSeeder extends Seeder
 
         $role2 = Role::create(['name' => 'dean']);
         $role2->givePermissionTo([
+            'read notices',
             'read own profile', 'update own profile',
             'create other users', 'read other users', 'update other users', 'delete other users',
             'create requests', 'read requests', 'update requests', 'delete requests', 'read semesters', 'read levels',
@@ -90,10 +91,11 @@ class PermissionSeeder extends Seeder
 
         $role3 = Role::create(['name' => 'administrator']);
         $role3->givePermissionTo([
+            'read notices',
+            'read contacts',
             'read own profile', 'update own profile',
             'create other users', 'read other users', 'update other users', 'delete other users',
             'create requests', 'read requests', 'update requests', 'delete requests',
-            'read semesters', 'read levels',
             'create courses', 'read courses', 'update courses', 'delete courses',
             'create departments', 'read departments', 'update departments', 'delete departments',
             'create programmes', 'read programmes', 'update programmes', 'delete programmes'
@@ -101,35 +103,28 @@ class PermissionSeeder extends Seeder
 
         $role4 = Role::create(['name' => 'hod']);
         $role4->givePermissionTo([
+            'read notices',
             'read own profile', 'update own profile',
             'read other users',
             'create requests', 'read requests', 'update requests', 'delete requests',
             'read semesters', 'read levels',
-            "read courses",
             'create own courses', 'read own courses', 'update own courses', 'delete own courses',
-            'read departments',
             'read own programmes', 'create own programmes', 'update own programmes', 'delete own programmes'
         ]);
 
         $role5 = Role::create(['name' => 'coordinator']);
         $role5->givePermissionTo([
+            'read notices',
             'read own profile', 'update own profile',
             'create requests', 'read requests', 'update requests', 'delete requests',
-            'read semesters', 'read levels',
-            'read courses',
             'read own courses', 'create own courses', 'update own courses', 'delete own courses',
-            'read departments',
-            'read programmes',
         ]);
 
         $role6 = Role::create(['name' => 'lecturer']);
         $role6->givePermissionTo([
+            'read notices',
             'read own profile', 'update own profile',
             'create requests', 'read requests', 'update requests', 'delete requests',
-            'read semesters', 'read levels',
-            'read courses',
-            'read departments',
-            'read programmes'
         ]);
 
 
@@ -137,20 +132,12 @@ class PermissionSeeder extends Seeder
         $role7->givePermissionTo([
             'read own profile', 'update own profile',
             'create requests', 'read requests', 'update requests', 'delete requests',
-            'read semesters', 'read levels',
-            'read courses',
-            'read departments',
-            'read programmes'
         ]);
 
         $role8 = Role::create(['name' => 'guest']);
         $role8->givePermissionTo([
             'read own profile', 'update own profile',
             'create requests', 'read requests', 'update requests', 'delete requests',
-            'read semesters', 'read levels',
-            'read courses',
-            'read departments',
-            'read programmes'
         ]);
 
         // $users = \App\Models\User::factory(10)->create();
@@ -162,7 +149,7 @@ class PermissionSeeder extends Seeder
 
         // create demo users
         $user = \App\Models\User::factory()->create([
-            'name' => 'Super Admin Mann',
+            'name' => 'Super Admin User',
             'email' => 'superadmin@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -175,7 +162,7 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role1);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Dean Mann',
+            'name' => 'Dean User',
             'email' => 'dean@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -188,8 +175,8 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role2);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Administrator Mann',
-            'email' => 'admin@cktutas.com',
+            'name' => 'Administrator User',
+            'email' => 'administrator@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'two_factor_secret' => null,
@@ -201,7 +188,7 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role3);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Hod Mann',
+            'name' => 'Hod User',
             'email' => 'hod@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -214,7 +201,7 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role4);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Coordinator Mann',
+            'name' => 'Coordinator User',
             'email' => 'coordinator@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -227,7 +214,7 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role5);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Lecturer Mann',
+            'name' => 'Lecturer User',
             'email' => 'lecturer@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -240,7 +227,7 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role6);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Student Mann',
+            'name' => 'Student User',
             'email' => 'student@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -253,7 +240,7 @@ class PermissionSeeder extends Seeder
         $user->assignRole($role7);
 
         $user = \App\Models\User::factory()->create([
-            'name' => 'Guest Mann',
+            'name' => 'Guest User',
             'email' => 'guest@cktutas.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
