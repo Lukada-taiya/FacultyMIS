@@ -14,37 +14,20 @@
             </div>
             <!-- end sidebar toggle -->
 
-            <p class="uppercase text-xs text-gray-600 mb-4 tracking-wider">
-                recents
-            </p>
-
-            <SidebarLink
-                icon="fad fa-window-alt"
-                :href="route('requests.index')"
-                >Requests</SidebarLink
-            >
-
             <p class="uppercase text-xs text-gray-600 mb-4 mt-4 tracking-wider">
                 Manage
-            </p> 
+            </p>
+            <SidebarLink icon="fad fa-users" href="/dashboard"
+                >Dashboard</SidebarLink
+            >
             <SidebarLink
                 v-if="can('read other users')"
                 icon="fad fa-users"
                 :href="route('users.index')"
-                >Users</SidebarLink> 
-            <SidebarLink>Programmes</SidebarLink>
-            <SidebarLink>Courses</SidebarLink>
-            <SidebarLink>Lecturers</SidebarLink>
-
-            <p class="uppercase text-xs text-gray-600 mb-4 mt-4 tracking-wider">
-                UI Elements
-            </p>
+                >Users</SidebarLink
+            >
 
             <!-- link -->
-            <a
-                href="./typography.html"
-                class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500"
-            >
             <SidebarLink
                 icon="fad fa-window-alt"
                 :href="route('requests.index')"
@@ -79,6 +62,18 @@
                 icon="fad fa-window-alt"
                 :href="route('courses.index')"
                 >Courses</SidebarLink
+            >
+            <SidebarLink
+                v-if="can('read contacts')"
+                icon="fad fa-window-alt"
+                :href="route('contacts.index')"
+                >Contacts</SidebarLink
+            >
+            <SidebarLink
+                v-if="can('read notices')"
+                icon="fad fa-window-alt"
+                :href="route('notices.index')"
+                >Notices</SidebarLink
             >
         </div>
         <!-- end sidebar content -->

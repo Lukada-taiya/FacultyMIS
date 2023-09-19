@@ -18,6 +18,17 @@
                             </div>
                             <div>
                                 <a
+                                    v-if="
+                                        sender.id === $page.props.auth.user.id
+                                    "
+                                    class="text-white mr-1 bg-yellow-600 rounded-md p-2 px-6 inline-block w-24"
+                                    :href="
+                                        route('requests.edit', thread['id'])
+                                    "
+                                    >Edit</a
+                                >
+                                <a
+                                    v-if="approved === 'null'"
                                     class="text-white bg-green-500 rounded-md p-2 px-6 inline-block w-24"
                                     :href="
                                         route('requests.create', {
@@ -27,6 +38,23 @@
                                     "
                                     >Reply</a
                                 >
+                                <a
+                                    v-else-if="approved === 'false'"
+                                    class="text-white bg-yellow-600 rounded-md p-2 px-4 inline-block w-24"
+                                    :href="
+                                        route('requests.approve', {
+                                            thread: thread['id'],
+                                        })
+                                    "
+                                    >Approve</a
+                                >
+                                <button
+                                    disabled
+                                    v-else-if="approved === 'true'"
+                                    class="disabled text-white bg-yellow-500 hover:cursor-pointer rounded-md p-2 px-4 inline-block w-24"
+                                >
+                                    Approved
+                                </button>
                             </div>
                         </div>
                         <hr />
@@ -43,16 +71,66 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-3">
+                            <hr />
+                            <div class="my-5">
                                 <iframe
+                                    class="w-full h-wide"
                                     :src="
-                                        'https://docs.google.com/gview?url=' +
-                                        message +
-                                        '&embedded=true'
+                                        route('requests.view', {
+                                            data: request,
+                                        })
                                     "
                                 ></iframe>
                                 <!-- {{ message }} -->
                             </div>
+                            <div class="mt-8" v-if="!!this.remarks">
+                                <CommentBox @post="submit" :thread="thread.id">
+                                    <Comment
+                                        v-for="rem of remarks"
+                                        :data="rem"
+                                        :key="rem"
+                                    />
+                                </CommentBox>
+                                <!-- <div class="font-bold text-sm mb-4">
+                                    Remarks
+                                </div>
+                                <div
+                                    class="my-3 text-white p-4 rounded-lg w-1/2 bg-gray-600 text-sm"
+                                    v-for="rem of remarks"
+                                >
+                                    <div
+                                        class="flex justify-between font-bold mb-2"
+                                    >
+                                        <div>
+                                            {{ rem.sender.name }}
+                                        </div>
+                                        <div>{{ rem.date_created }}</div>
+                                    </div>
+                                    <div>
+                                        {{ rem.body }}
+                                    </div> -->
+                                <!-- </div> -->
+                            </div>
+                            <!-- <div>
+                                <label
+                                    class="font-bold text-sm mb-8"
+                                    for="remark"
+                                    >Add Remark</label
+                                >
+                                <div
+                                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                >
+                                    <textarea
+                                        v-model="remark"
+                                        class="block border-0 bg-transparent p-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                        placeholder="Add a remark..."
+                                        name="remark"
+                                        id="remark"
+                                        cols="30"
+                                        rows="5"
+                                    ></textarea>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -63,15 +141,32 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
+import CommentBox from "@/Components/CommentBox.vue";
+import Comment from "@/Components/Comment.vue";
 export default {
-    props: { thread: Object, sender: Object, message: String },
+    props: {
+        thread: Object,
+        sender: Object,
+        remarks: Object,
+        request: String,
+        approved: String,
+    },
     components: {
         AppLayout,
-        router,
+        Comment,
+        CommentBox,
+    },
+    data() {
+        return {
+            remark: "",
+        };
     },
     methods: {
         returnBack() {
             router.get("/requests");
+        },
+        submit(e) {
+            router.post("/remarks/add", e);
         },
     },
 };

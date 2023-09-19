@@ -42,32 +42,13 @@
                     </li>
 
                     <li>
-                        <a
-                            class="btn text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
-                            href="#"
+                        <button
+                            class="btn approval w-full text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
+                            @click="switchView('approval')"
                         >
-                            <i class="text-xs fad fa-star mr-1"></i>
-                            Marked
-                        </a>
-                    </li>
-
-                    <li>
-                        <a
-                            class="btn text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
-                            href="#"
-                        >
-                            <i class="text-xs fad fa-inbox-in mr-1"></i>
-                            draft
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            class="btn text-left text-gray-800 bg-white hover:bg-gray-100 hover:text-gray-900"
-                            href="#"
-                        >
-                            <i class="text-xs fad fa-trash mr-1"></i>
-                            trash
-                        </a>
+                            <i class="text-xs fad fa-paper-plane mr-1"></i>
+                            Approvals
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -99,12 +80,13 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import All from "./All.vue";
+import Approval from "./Approval.vue";
 import Sent from "./Sent.vue";
 import Received from "./Received.vue";
 import { usePage } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 export default {
-    components: { AppLayout, All, Received, Sent, Link },
+    components: { AppLayout, All, Received, Sent, Approval, Link },
     props: {
         threads: Object,
     },
@@ -122,7 +104,6 @@ export default {
             this.view = viewText;
         },
         filterThreads(type) {
-            // console.log('type', type);
             let newThreads = [];
             if (type === "sent") {
                 for (const thread of this.threads) {
@@ -130,9 +111,18 @@ export default {
                         newThreads.push(thread);
                     }
                 }
+            } else if (type === "approval") {
+                for (const thread of this.threads) {
+                    if (thread.approval === false || thread.approval === true) {
+                        newThreads.push(thread);
+                    }
+                }
             } else if (type === "received") {
                 for (const thread of this.threads) {
-                    if (this.user.id != thread.sender.id) {
+                    if (
+                        this.user.id != thread.sender.id &&
+                        thread.approval === null
+                    ) {
                         newThreads.push(thread);
                     }
                 }
@@ -158,6 +148,8 @@ export default {
                 document.querySelector(".all").classList.add(...inactive);
                 document.querySelector(".received").classList.remove(active);
                 document.querySelector(".received").classList.add(...inactive);
+                document.querySelector(".approval").classList.remove(active);
+                document.querySelector(".approval").classList.add(...inactive);
             } else if (button === "received") {
                 document
                     .querySelector(".received")
@@ -167,6 +159,8 @@ export default {
                 document.querySelector(".all").classList.add(...inactive);
                 document.querySelector(".sent").classList.remove(active);
                 document.querySelector(".sent").classList.add(...inactive);
+                document.querySelector(".approval").classList.remove(active);
+                document.querySelector(".approval").classList.add(...inactive);
             } else if (button === "all") {
                 document.querySelector(".all").classList.remove(...inactive);
                 document.querySelector(".all").classList.add(active);
@@ -174,6 +168,19 @@ export default {
                 document.querySelector(".received").classList.add(...inactive);
                 document.querySelector(".sent").classList.remove(active);
                 document.querySelector(".sent").classList.add(...inactive);
+                document.querySelector(".approval").classList.remove(active);
+                document.querySelector(".approval").classList.add(...inactive);
+            } else if (button === "approval") {
+                document
+                    .querySelector(".approval")
+                    .classList.remove(...inactive);
+                document.querySelector(".approval").classList.add(active);
+                document.querySelector(".received").classList.remove(active);
+                document.querySelector(".received").classList.add(...inactive);
+                document.querySelector(".sent").classList.remove(active);
+                document.querySelector(".sent").classList.add(...inactive);
+                document.querySelector(".all").classList.remove(active);
+                document.querySelector(".all").classList.add(...inactive);
             }
         },
     },

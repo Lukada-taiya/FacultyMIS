@@ -6,14 +6,18 @@
                     <gradient-text htype="h1">Notice Board</gradient-text>
                 </div>
                 <div class="section">
-                    <div v-for="notice in notices" :key="notice.title" class="note">
+                    <div
+                        v-for="notice in notices"
+                        :key="notice.id"
+                        class="note"
+                    >
                         <div class="note-title">{{ notice.title }}</div>
                         <div class="note-date">{{ notice.date }}</div>
                         <div class="note-author">
-                            <strong>From:</strong> {{ notice.author }}
+                            <strong>From:</strong> {{ notice.from }}
                         </div>
                         <div class="note-content">
-                            {{ notice.details }}
+                            {{ notice.body }}
                         </div>
                     </div>
                 </div>
@@ -26,34 +30,8 @@ import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 import GradientText from "../Shared/ui/GradientText.vue";
 
 export default {
-    components: {GradientText, FrontendLayout },
-    data() {
-        return {
-            notices: [
-                {
-                    title: "Notice to All Level 400s",
-                    date: "22nd April, 2023",
-                    author: "Vice Chancellor",
-                    details:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et dolore nisl tincidunt eget. Lectus mauris eros in vitae .",
-                },
-                {
-                    title: "Attention!!!",
-                    date: "27th June, 2023",
-                    author: "Dean of Faculty",
-                    details:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et dolore nisl tincidunt eget. Lectus mauris eros in vitae .",
-                },
-                {
-                    title: "Week Celebration 2023",
-                    date: "21st April, 2023",
-                    author: "SRC President",
-                    details:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et dolore nisl tincidunt eget. Lectus mauris eros in vitae .",
-                },
-            ],
-        };
-    },
+    components: { GradientText, FrontendLayout },
+    props: { notices: Object },
 };
 </script>
 <style scoped>

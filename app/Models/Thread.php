@@ -34,7 +34,7 @@ class Thread extends Eloquent
    *
    * @var array
    */
-  protected $fillable = ['subject'];
+  protected $fillable = ['subject', 'priority'];
 
   /**
    * Internal cache for creator.
@@ -251,16 +251,14 @@ class Thread extends Eloquent
    *
    * @return void
    */
-  public function addParticipant($userId, $type, $priority)
+  public function addParticipant($userId)
   {
     $userIds = is_array($userId) ? $userId : func_get_args();
     dd($userIds);
-    collect($userIds)->each(function ($userId, $type, $priority) {
+    collect($userIds)->each(function ($userId) {
       Models::participant()->firstOrCreate([
         'user_id' => $userId,
         'thread_id' => $this->id,
-        'type' => $type,
-        'approved_priority' => $priority
       ]);
     });
   }
