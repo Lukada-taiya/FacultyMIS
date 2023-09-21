@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 export default defineConfig({
     plugins: [
         laravel({
-            input: ["resources/js/app.js", "resources/sass/app.sass"],
+            input: ["resources/js/app.js", "resources/sass/app.sass","resources/css/app.css"],
             refresh: true,
         }),
         vue({
