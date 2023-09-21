@@ -92,7 +92,7 @@ class PermissionSeeder extends Seeder
             'create departments', 'read departments', 'update departments', 'delete departments',
             'create programmes', 'read programmes', 'update programmes', 'delete programmes',
              'create others courses', 'read others courses', 'update others courses', 'delete others courses',
-                        'read others programmes', 'create others programmes', 'update others programmes', 'delete others programmes'
+                        'read others programmes', 'create others programmes', 'update others programmes', 'delete others programmes',
                         'read others programmes', 'create programmes', 'update programmes', 'delete programmes'
         ]);
 
