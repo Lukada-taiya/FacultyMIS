@@ -26,7 +26,7 @@ class RequestController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->middleware(['auth', 'permission:read requests|update requests| create requests | delete requests']);
+        $this->middleware(['auth', 'permission:read requests|update requests| create requests']);
     }
 
     /**

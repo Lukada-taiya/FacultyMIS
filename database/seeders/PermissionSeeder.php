@@ -20,13 +20,13 @@ class PermissionSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'create other users']);
-        Permission::create(['name' => 'update other users']);
-        Permission::create(['name' => 'delete other users']);
-        Permission::create(['name' => 'read other users']);
+        Permission::create(['name' => 'create users']);
+        Permission::create(['name' => 'update users']);
+        Permission::create(['name' => 'delete users']);
+        Permission::create(['name' => 'read users']);
 
-        Permission::create(['name' => 'read contacts']);
-        Permission::create(['name' => 'read notices']);
+        Permission::create(['name' => 'manage contacts']);
+        Permission::create(['name' => 'manage notices']);
         // Permission::create(['name' => 'delete subordinate']);
         // Permission::create(['name' => 'read subordinate']);
 
@@ -35,7 +35,6 @@ class PermissionSeeder extends Seeder
 
         Permission::create(['name' => 'create requests']);
         Permission::create(['name' => 'update requests']);
-        Permission::create(['name' => 'delete requests']);
         Permission::create(['name' => 'read requests']);
 
         Permission::create(['name' => 'create programmes']);
@@ -43,35 +42,25 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete programmes']);
         Permission::create(['name' => 'read programmes']);
 
-        Permission::create(['name' => 'create own programmes']);
-        Permission::create(['name' => 'update own programmes']);
-        Permission::create(['name' => 'delete own programmes']);
-        Permission::create(['name' => 'read own programmes']);
-
-        Permission::create(['name' => 'create semesters']);
-        Permission::create(['name' => 'update semesters']);
-        Permission::create(['name' => 'delete semesters']);
-        Permission::create(['name' => 'read semesters']);
-
-        Permission::create(['name' => 'create levels']);
-        Permission::create(['name' => 'update levels']);
-        Permission::create(['name' => 'delete levels']);
-        Permission::create(['name' => 'read levels']);
-
         Permission::create(['name' => 'create courses']);
         Permission::create(['name' => 'update courses']);
         Permission::create(['name' => 'delete courses']);
         Permission::create(['name' => 'read courses']);
-
-        Permission::create(['name' => 'create own courses']);
-        Permission::create(['name' => 'update own courses']);
-        Permission::create(['name' => 'delete own courses']);
-        Permission::create(['name' => 'read own courses']);
+        
+        Permission::create(['name' => 'create others courses']);
+                Permission::create(['name' => 'update others courses']);
+                Permission::create(['name' => 'delete others courses']);
+                Permission::create(['name' => 'read others courses']);
 
         Permission::create(['name' => 'create departments']);
         Permission::create(['name' => 'update departments']);
         Permission::create(['name' => 'delete departments']);
         Permission::create(['name' => 'read departments']);
+        
+        Permission::create(['name' => 'create others programmes']);
+        Permission::create(['name' => 'update others programmes']);
+        Permission::create(['name' => 'delete others programmes']);
+        Permission::create(['name' => 'read others programmes']);
 
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'super-admin']);
@@ -80,64 +69,69 @@ class PermissionSeeder extends Seeder
 
         $role2 = Role::create(['name' => 'dean']);
         $role2->givePermissionTo([
-            'read notices',
+            'manage notices',
             'read own profile', 'update own profile',
-            'create other users', 'read other users', 'update other users', 'delete other users',
-            'create requests', 'read requests', 'update requests', 'delete requests', 'read semesters', 'read levels',
+            'create users', 'read users', 'update users', 'delete users',
+            'create requests', 'read requests', 'update requests',
             'create courses', 'read courses', 'update courses', 'delete courses',
             'create departments', 'read departments', 'update departments', 'delete departments',
-            'create programmes', 'read programmes', 'update programmes', 'delete programmes'
+            'create programmes', 'read programmes', 'update programmes', 'delete programmes',
+             'create others courses', 'read others courses', 'update others courses', 'delete others courses',
+                        'read others programmes', 'create others programmes', 'update others programmes', 'delete others programmes'
+                        'read others programmes', 'create programmes', 'update programmes', 'delete programmes'
         ]);
 
         $role3 = Role::create(['name' => 'administrator']);
         $role3->givePermissionTo([
-            'read notices',
-            'read contacts',
+            'manage notices',
+            'manage contacts',
             'read own profile', 'update own profile',
-            'create other users', 'read other users', 'update other users', 'delete other users',
-            'create requests', 'read requests', 'update requests', 'delete requests',
+            'create users', 'read users', 'update users',
+            'create requests', 'read requests', 'update requests',
             'create courses', 'read courses', 'update courses', 'delete courses',
             'create departments', 'read departments', 'update departments', 'delete departments',
-            'create programmes', 'read programmes', 'update programmes', 'delete programmes'
+            'create programmes', 'read programmes', 'update programmes', 'delete programmes',
+             'create others courses', 'read others courses', 'update others courses', 'delete others courses',
+                        'read others programmes', 'create others programmes', 'update others programmes', 'delete others programmes'
+                        'read others programmes', 'create programmes', 'update programmes', 'delete programmes'
         ]);
 
         $role4 = Role::create(['name' => 'hod']);
         $role4->givePermissionTo([
-            'read notices',
+            'manage notices',
             'read own profile', 'update own profile',
-            'read other users',
-            'create requests', 'read requests', 'update requests', 'delete requests',
-            'read semesters', 'read levels',
-            'create own courses', 'read own courses', 'update own courses', 'delete own courses',
-            'read own programmes', 'create own programmes', 'update own programmes', 'delete own programmes'
+            'create requests', 'read requests', 'update requests',
+            'create courses', 'read courses', 'update courses', 'delete courses',
+            'create programmes', 'read programmes', 'update programmes', 'delete programmes',
         ]);
 
         $role5 = Role::create(['name' => 'coordinator']);
         $role5->givePermissionTo([
-            'read notices',
+            'manage notices',
             'read own profile', 'update own profile',
-            'create requests', 'read requests', 'update requests', 'delete requests',
-            'read own courses', 'create own courses', 'update own courses', 'delete own courses',
+            'create requests', 'read requests', 'update requests',
+            'read courses', 'create courses', 'update courses', 'delete courses',
+            'create programmes', 'read programmes', 'update programmes', 'delete programmes',
         ]);
 
         $role6 = Role::create(['name' => 'lecturer']);
         $role6->givePermissionTo([
-            'read notices',
+            'manage notices',
             'read own profile', 'update own profile',
-            'create requests', 'read requests', 'update requests', 'delete requests',
+            'create requests', 'read requests', 'update requests',
         ]);
 
 
         $role7 = Role::create(['name' => 'student']);
         $role7->givePermissionTo([
             'read own profile', 'update own profile',
-            'create requests', 'read requests', 'update requests', 'delete requests',
+            'create requests', 'read requests', 'update requests',
         ]);
 
         $role8 = Role::create(['name' => 'guest']);
         $role8->givePermissionTo([
             'read own profile', 'update own profile',
-            'create requests', 'read requests', 'update requests', 'delete requests',
+            'create requests', 'read requests', 'update requests'
         ]);
 
         // $users = \App\Models\User::factory(10)->create();

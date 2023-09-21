@@ -12,6 +12,7 @@
         "ahmedsaoud31/laravel-permission-to-vuejs": "dev-master",
         "barryvdh/laravel-dompdf": "^2.0",
         "cmgmyr/messenger": "^2.29",
+	"fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.8",
         "laravel/framework": "^10.10",
@@ -22,7 +23,6 @@
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",

@@ -11,7 +11,7 @@ class NoticesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'permission:read notices']);
+        $this->middleware(['auth', 'permission:manage notices']);
     }
 
     /**
@@ -19,7 +19,7 @@ class NoticesController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->can('read notices')) {
+        if (auth()->user()->can('manage notices')) {
         $notices = Notice::latest()->paginate(10)->through(fn ($notice) => [
             'id' => $notice->id,
             'title' => $notice->title,
