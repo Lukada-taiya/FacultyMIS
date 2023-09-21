@@ -148,6 +148,11 @@
     "file": "assets/indentblock-d10c33b8.css",
     "src": "indentblock.css"
   },
+  "resources/css/app.css": {
+    "file": "assets/app-8738b244.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
   "resources/js/Pages/API/Index.vue": {
     "file": "assets/Index-773dd59d.js",
     "imports": [
