@@ -5,7 +5,7 @@
                 <div class="mt-6 max-w-3xl mx-auto py-10 sm:px-6 lg:px-8">
                     <div>
                         <h3 class="text-lg font-medium text-gray-900">
-                            Create New User
+                            Edit New User
                         </h3>
                         <p class="mt-1 mb-5 text-sm text-gray-600">
                             Edit a user in the system

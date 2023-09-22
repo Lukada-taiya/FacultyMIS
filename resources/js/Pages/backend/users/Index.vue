@@ -14,6 +14,9 @@
                     <div
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
                     >
+                      <div>
+                        <Link class="rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Create New User</Link>
+                      </div>
                         <div class="relative overflow-x-auto">
                             <table
                                 class="w-full text-sm text-left text-gray-500"
