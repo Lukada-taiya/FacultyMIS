@@ -17,7 +17,7 @@
                         <div
                             v-if="
                                 contacts.data.length !== 0 &&
-                                can('read contacts')
+                                can('manage contacts')
                             "
                             class="relative overflow-x-auto"
                         >

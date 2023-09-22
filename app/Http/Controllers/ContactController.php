@@ -10,7 +10,7 @@ class ContactController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'permission:read contacts']);
+        $this->middleware(['auth', 'permission:manage contacts']);
     }
 
     /**
@@ -19,7 +19,7 @@ class ContactController extends Controller
     public function index()
     {
         // dd(auth()->user()->hasRole('re'))
-        if (auth()->user()->can('read contacts')) {
+        if (auth()->user()->can('manage contacts')) {
             $contacts = Contact::latest()->paginate(10)->through(fn ($contact) => [
                 'id' => $contact->id,
                 'email' => $contact->email,
@@ -36,7 +36,7 @@ class ContactController extends Controller
      */
     public function create(Request $request)
     {
-        if (auth()->user()->can('read contacts')) {
+        if (auth()->user()->can('manage contacts')) {
             $contact = Contact::findOrFail($request->id);
             return Inertia::render('backend/contacts/Create', ['email' => $contact->email]);
         } else {

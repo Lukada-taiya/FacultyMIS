@@ -1,1 +1,0 @@
-import{_ as s}from"./_plugin-vue_export-helper-c27b6911.js";import{o as a,d as n,s as r,n as o}from"./app-17fb6d78.js";const d={props:{htype:{type:String,required:!1,default:null}}};function _(e,c,t,l,p,i){return a(),n("div",{class:o(t.htype)},[r(e.$slots,"default",{},void 0,!0)],2)}const m=s(d,[["render",_],["__scopeId","data-v-d2a85bcb"]]);export{m as default};
