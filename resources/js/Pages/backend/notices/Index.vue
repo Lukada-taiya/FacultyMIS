@@ -21,10 +21,10 @@
                             class="relative overflow-x-auto"
                         >
                             <table
-                                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                                class="w-full text-sm text-left text-gray-500"
                             >
                                 <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                                    class="text-xs text-gray-700 uppercase bg-gray-50"
                                 >
                                     <tr>
                                         <th scope="col" class="px-6 py-3">#</th>
@@ -49,11 +49,11 @@
                                     <tr
                                         v-for="notice in notices.data"
                                         :key="notice.id"
-                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                        class="bg-white border-b"
                                     >
                                         <td
                                             scope="row"
-                                            class="px-6 py-4 font-medium whitespace-nowrap dark:text-white"
+                                            class="px-6 py-4 font-medium whitespace-nowrap"
                                         >
                                             {{ notice.id }}
                                         </td>
