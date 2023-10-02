@@ -359,7 +359,7 @@ class RequestController extends Controller
             'body' => 'required|min:5'
         ]);
         $message = Message::findOrFail($id);
-
+        
         $message->body = $result['body'];
         $message->save();
 
