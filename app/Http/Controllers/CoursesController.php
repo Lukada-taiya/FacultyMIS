@@ -6,7 +6,10 @@ use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Semester;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -15,19 +18,52 @@ class CoursesController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'permission:read courses|update courses| create courses | delete courses']);
+        // $this->middleware(['auth', 'permission:read courses|update courses| create courses | delete courses']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        if (auth()->user()->can('read courses')) {
+        // if (auth()->user()->can('read courses')) {
+        $user = auth()->user();
+        $roles = $user->getRoleNames();
+        if ($roles->contains('student')) {
+            $courses = Course::where('level_id', $user->level_id)->paginate(10)->through(fn ($course) => [
+                'id' => $course->id,
+                'name' => $course->name,
+                'code' => $course->code
+            ]);
+        } else if ($roles->contains('hod') || $roles->contains('coordinator')) {
+
+            $programs = $user->department->programmes;
+            // $courses = new Collection();
+            // foreach ($programs as $program) {
+            //     $courses = $courses->merge($program->courses);
+            // }
+            $courses = Course::paginate(10);
+            // dd($courses);
+            $total = count($courses);
+            $per_page =10;
+            $current_page = 1;
+
+            // $starting_point = ($current_page * $per_page) - $per_page;
+
+            // $array = array_slice($array, $starting_point, $per_page, true);
+            $courses = new Paginator($courses,$per_page,1, ['path' => 'http://localhost:8000/courses']);
+            
+            dd($courses);
+        } else if ($roles->contains('administrator') || $roles->contains('dean')) {
             $courses = Course::latest()->paginate(10)->through(fn ($course) => [
                 'id' => $course->id,
                 'name' => $course->name,
                 'code' => $course->code
             ]);
+        }
+        $semesters = new Collection();
+        $programmes = new Collection();
+        $lecturers = new Collection();
+        if ($roles->contains('administrator') || $roles->contains('dean') || $roles->contains('hod') || $roles->contains('coordinator')) {
             $semesters = Semester::all()->map(fn ($semester) => [
                 'id' => $semester->id,
                 'name' => $semester->name
@@ -35,20 +71,21 @@ class CoursesController extends Controller
             $programmes = Programme::all()->map(fn ($programme) => [
                 'id' => $programme->id,
                 'name' => $programme->name
-            ]);
+            ]); 
             $lecturers = User::role(['lecturer','coordinator', 'hod','dean'])->get()->map(fn ($lecturer) => [
                 'id' => $lecturer->id,
                 'name' => $lecturer->name
             ]);
-            // array_filter($lecturers, function ($user) {
-            //     return $user->role == 'lecturer' || $user->role == 'hod' || $user->role == 'dean' || $user->role == 'coordinator';
-            // });
-
-
-            return Inertia::render('backend/courses/Index', ['courses' => $courses, 'semesters' => $semesters, 'programmes' => $programmes, 'lecturers' => $lecturers]);
-        } else {
-            abort(403, 'Unauthorized Action');
         }
+        // array_filter($lecturers, function ($user) {
+        //     return $user->role == 'lecturer' || $user->role == 'hod' || $user->role == 'dean' || $user->role == 'coordinator';
+        // });
+
+
+        return Inertia::render('backend/courses/Index', ['courses' => $courses, 'semesters' => $semesters, 'programmes' => $programmes, 'lecturers' => $lecturers]);
+        // } else {
+        //     abort(403, 'Unauthorized Action');
+        // }
     }
 
     /**

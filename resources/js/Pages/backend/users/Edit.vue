@@ -5,7 +5,7 @@
                 <div class="mt-6 max-w-3xl mx-auto py-10 sm:px-6 lg:px-8">
                     <div>
                         <h3 class="text-lg font-medium text-gray-900">
-                            Edit New User
+                            Edit User 
                         </h3>
                         <p class="mt-1 mb-5 text-sm text-gray-600">
                             Edit a user in the system
@@ -124,7 +124,10 @@
                                                 </div>
                                             </div>
                                             <div
-                                                v-if="form.role == 4 || form.role == 5"
+                                                v-if="
+                                                    form.role == 4 ||
+                                                    form.role == 5
+                                                "
                                                 class="sm:col-span-full mt-5"
                                             >
                                                 <label
@@ -137,7 +140,9 @@
                                                         class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
                                                         <select
-                                                            v-model="form.department"
+                                                            v-model="
+                                                                form.department
+                                                            "
                                                             name="department"
                                                             id="department"
                                                             autocomplete="department"
@@ -149,19 +154,26 @@
                                                                 hidden
                                                                 selected
                                                             >
-                                                                Select department...
+                                                                Select
+                                                                department...
                                                             </option>
 
                                                             <option
                                                                 class="capitalize"
                                                                 v-for="department of departments"
-                                                                :key="department.id"
-                                                                :value="department.id"
+                                                                :key="
+                                                                    department.id
+                                                                "
+                                                                :value="
+                                                                    department.id
+                                                                "
                                                                 :selected="
                                                                     user.department
                                                                 "
                                                             >
-                                                                {{ department.name }}
+                                                                {{
+                                                                    department.name
+                                                                }}
                                                             </option>
                                                         </select>
                                                     </div>
