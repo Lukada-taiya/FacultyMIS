@@ -13,18 +13,20 @@
                     </div>
                     <div
                         class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md"
-                    > 
+                    > <div class="my-6">
+                    <Link :href="route('notices.create')" class="rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Create New Notice</Link>
+                      </div>
                         <div
                             v-if="
-                                notices.data.length !== 0 && can('read notices')
+                                notices.data.length !== 0 && can('manage notices')
                             "
                             class="relative overflow-x-auto"
                         >
                             <table
-                                class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+                                class="w-full text-sm text-left text-gray-500"
                             >
                                 <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                                    class="text-xs text-gray-700 uppercase bg-gray-50"
                                 >
                                     <tr>
                                         <th scope="col" class="px-6 py-3">#</th>
@@ -49,11 +51,11 @@
                                     <tr
                                         v-for="notice in notices.data"
                                         :key="notice.id"
-                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                        class="bg-white border-b"
                                     >
                                         <td
                                             scope="row"
-                                            class="px-6 py-4 font-medium whitespace-nowrap dark:text-white"
+                                            class="px-6 py-4 font-medium whitespace-nowrap"
                                         >
                                             {{ notice.id }}
                                         </td>

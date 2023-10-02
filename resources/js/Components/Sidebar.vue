@@ -21,7 +21,7 @@
                 >Dashboard</SidebarLink
             >
             <SidebarLink
-                v-if="can('read other users')"
+                v-if="can('read users')"
                 icon="fad fa-users"
                 :href="route('users.index')"
                 >Users</SidebarLink
@@ -64,13 +64,13 @@
                 >Courses</SidebarLink
             >
             <SidebarLink
-                v-if="can('read contacts')"
+                v-if="can('manage contacts')"
                 icon="fad fa-window-alt"
                 :href="route('contacts.index')"
                 >Contacts</SidebarLink
             >
             <SidebarLink
-                v-if="can('read notices')"
+                v-if="can('manage notices')"
                 icon="fad fa-window-alt"
                 :href="route('notices.index')"
                 >Notices</SidebarLink

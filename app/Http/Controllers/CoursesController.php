@@ -71,8 +71,8 @@ class CoursesController extends Controller
             $programmes = Programme::all()->map(fn ($programme) => [
                 'id' => $programme->id,
                 'name' => $programme->name
-            ]);
-            $lecturers = User::role(['lecturer', 'hod', 'coordinator', 'dean'])->get()->map(fn ($lecturer) => [
+            ]); 
+            $lecturers = User::role(['lecturer','coordinator', 'hod','dean'])->get()->map(fn ($lecturer) => [
                 'id' => $lecturer->id,
                 'name' => $lecturer->name
             ]);
