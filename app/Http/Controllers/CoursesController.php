@@ -44,16 +44,16 @@ class CoursesController extends Controller
             $courses = Course::paginate(10);
             // dd($courses);
             $total = count($courses);
-            $per_page =10;
+            $per_page = 10;
             $current_page = 1;
 
             // $starting_point = ($current_page * $per_page) - $per_page;
 
             // $array = array_slice($array, $starting_point, $per_page, true);
-            $courses = new Paginator($courses,$per_page,1, ['path' => 'http://localhost:8000/courses']);
-            
+            $courses = new Paginator($courses, $per_page, 1, ['path' => 'http://localhost:8000/courses']);
+
             dd($courses);
-        } else if ($roles->contains('administrator') || $roles->contains('dean')) {
+        } else if ($roles->contains('administrator') || $roles->contains('dean') || $roles->contains('super-admin')) {
             $courses = Course::latest()->paginate(10)->through(fn ($course) => [
                 'id' => $course->id,
                 'name' => $course->name,
@@ -63,7 +63,7 @@ class CoursesController extends Controller
         $semesters = new Collection();
         $programmes = new Collection();
         $lecturers = new Collection();
-        if ($roles->contains('administrator') || $roles->contains('dean') || $roles->contains('hod') || $roles->contains('coordinator')) {
+        if ($roles->contains('administrator') || $roles->contains('dean') || $roles->contains('hod') || $roles->contains('coordinator') || $roles->contains('super-admin')) {
             $semesters = Semester::all()->map(fn ($semester) => [
                 'id' => $semester->id,
                 'name' => $semester->name
@@ -71,8 +71,8 @@ class CoursesController extends Controller
             $programmes = Programme::all()->map(fn ($programme) => [
                 'id' => $programme->id,
                 'name' => $programme->name
-            ]); 
-            $lecturers = User::role(['lecturer','coordinator', 'hod','dean'])->get()->map(fn ($lecturer) => [
+            ]);
+            $lecturers = User::role(['lecturer', 'coordinator', 'hod', 'dean', 'super-admin'])->get()->map(fn ($lecturer) => [
                 'id' => $lecturer->id,
                 'name' => $lecturer->name
             ]);
