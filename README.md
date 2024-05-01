@@ -56,12 +56,12 @@ FacultyMIS is privilege-based and has these modules
 
 Any user using the system can have either one of these privileges
 
-    |   User            |   Privileges  |
-    | ----------------  |   ----------- |
-    |   Guest           |   Manage Profile, requests |
-    |   Student         |   Manage Profile, requests, courses |
-    |   Lecturer        |   Manage Profile, requests, courses,notices      |
-    |   Head Of Department (Hod) | Manage profile, requests, courses, notices, programmes |
-    |   Administrator      |   Manage profile, requests, courses, programmes, departments, notices, users, contacts |
-    | SuperAdmin    |  Manage profile, requests, courses, programmes, departments, notices, users, contacts |
+    |   User                    |   Privileges                                                                          |
+    | ----------------          |   ----------------------------------------------------------------------              |
+    |   Guest                   |   Manage Profile, requests                                                            |
+    |   Student                 |   Manage Profile, requests, courses                                                   |
+    |   Lecturer                |   Manage Profile, requests, courses,notices                                           |
+    |   Head Of Department (Hod)|   Manage profile, requests, courses, notices, programmes                              |
+    |   Administrator           |   Manage profile, requests, courses, programmes, departments, notices, users, contacts|
+    |   SuperAdmin              |  Manage profile, requests, courses, programmes, departments, notices, users, contacts |
     
