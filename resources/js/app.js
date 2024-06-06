@@ -6,10 +6,6 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import LaravelPermissionToVueJS from "laravel-permission-to-vuejs";
-import VueQuillEditor from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
 
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -22,7 +18,6 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(LaravelPermissionToVueJS)
-            .use(VueQuillEditor)
             .mount(el);
     },
     progress: {
