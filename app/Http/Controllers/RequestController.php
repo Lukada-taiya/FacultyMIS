@@ -222,7 +222,7 @@ class RequestController extends Controller
             // $doc = $request->file('body');
             // $filename = now() . " " . $request_arr['subject'] . '.pdf';
             // $location = storage_path('app/public/');
-            // $doc->move($location, $filename); 
+            // $doc->move($location, $filename);
             // dd($request_arr['through']);
             // $pdf = App::make('dompdf.wrapper');
             // $pdf->loadHTML($request_arr['body']);
@@ -344,8 +344,8 @@ class RequestController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    { 
-        $message_col = Message::where('thread_id', $id)->where('type', 'file')->first(); 
+    {
+        $message_col = Message::where('thread_id', $id)->where('type', 'file')->first();
         $message = ['id' => $message_col->id, 'body' => $message_col->body];
         return Inertia::render('backend/requests/Edit',['message' => $message]);
     }
@@ -359,7 +359,7 @@ class RequestController extends Controller
             'body' => 'required|min:5'
         ]);
         $message = Message::findOrFail($id);
-        
+
         $message->body = $result['body'];
         $message->save();
 

@@ -25,6 +25,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
+        $courses = new Collection();
         // if (auth()->user()->can('read courses')) {
         $user = auth()->user();
         $roles = $user->getRoleNames();
@@ -35,13 +36,17 @@ class CoursesController extends Controller
                 'code' => $course->code
             ]);
         } else if ($roles->contains('hod') || $roles->contains('coordinator')) {
-
+            //Feature to be Implemented = Hod only able to manage courses related to department
             $programs = $user->department->programmes;
             // $courses = new Collection();
             // foreach ($programs as $program) {
             //     $courses = $courses->merge($program->courses);
             // }
-            $courses = Course::paginate(10);
+            $courses = Course::latest()->paginate(10)->through(fn ($course) => [
+                'id' => $course->id,
+                'name' => $course->name,
+                'code' => $course->code
+            ]);
             // dd($courses);
             $total = count($courses);
             $per_page = 10;
@@ -50,9 +55,8 @@ class CoursesController extends Controller
             // $starting_point = ($current_page * $per_page) - $per_page;
 
             // $array = array_slice($array, $starting_point, $per_page, true);
-            $courses = new Paginator($courses, $per_page, 1, ['path' => 'http://localhost:8000/courses']);
+            // $courses = new Paginator($courses, $per_page, 1, ['path' => 'http://localhost:8000/courses']);
 
-            dd($courses);
         } else if ($roles->contains('administrator') || $roles->contains('dean') || $roles->contains('super-admin')) {
             $courses = Course::latest()->paginate(10)->through(fn ($course) => [
                 'id' => $course->id,
@@ -117,6 +121,7 @@ class CoursesController extends Controller
             $new_course->lecturer_id = $course['lecturer'];
             $new_course->semester_id = $course['semester'];
             $new_course->programmes()->sync($new_rel);
+            $new_course->save();
             return Redirect::route('courses.index');
         } else {
             abort(403, 'Unauthorized Action');

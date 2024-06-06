@@ -183,7 +183,7 @@ class UsersController extends Controller
                 $user->level_id = $request->input('level');
                 $user->programme_id = $request->input('programme');
                 $user->department_id = null;
-            } else if ($request->input('role') == 3) {
+            } else if ($request->input('role') == 4) {
                 $user->department_id = $request->input('department');
                 $user->level_id = null;
                 $user->programme_id = null;
