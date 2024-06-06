@@ -21,7 +21,7 @@
                             >
                                 <div class="space-y-12">
                                     <div
-                                        class="border-b border-gray-900/10 pb-12"
+                                        class="border-gray-900/10 pb-12"
                                     >
                                         <div
                                             class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
@@ -205,13 +205,7 @@
                                                     <div
                                                         class="rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                                     >
-                                                        <ckeditor
-                                                            :editor="editor"
-                                                            v-model="form.body"
-                                                            :config="
-                                                                editorConfig
-                                                            "
-                                                        ></ckeditor>
+                                                    <QuillEditor :value="form.body" @input="handleEditorInput" :options="editorOptions" />
                                                     </div>
                                                     <div
                                                         v-if="errors.body"
@@ -258,25 +252,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
-import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
-import { Alignment } from "@ckeditor/ckeditor5-alignment";
-import { Essentials } from "@ckeditor/ckeditor5-essentials";
-import { FindAndReplace } from "@ckeditor/ckeditor5-find-and-replace";
-import {
-    Bold,
-    Italic,
-    Underline,
-    Strikethrough,
-    Subscript,
-    Superscript,
-} from "@ckeditor/ckeditor5-basic-styles";
-import { Font } from "@ckeditor/ckeditor5-font";
-import { Link as Link1 } from "@ckeditor/ckeditor5-link";
-import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
-import { Heading } from "@ckeditor/ckeditor5-heading";
-import { PasteFromOffice } from "@ckeditor/ckeditor5-paste-from-office";
-import { List } from "@ckeditor/ckeditor5-list";
-import { Indent, IndentBlock } from "@ckeditor/ckeditor5-indent";
+import QuillEditor from '@/Components/QuillEditor.vue';
 export default {
     props: {
         users: Array,
@@ -284,66 +260,30 @@ export default {
         user: String,
         subject: String,
     },
+    model: {
+      prop: 'value',
+      event: 'input'
+  },
     data() {
         return {
-            editor: ClassicEditor,
-            editorConfig: {
-                plugins: [
-                    Essentials,
-                    Bold,
-                    Italic,
-                    Paragraph,
-                    Underline,
-                    Strikethrough,
-                    Subscript,
-                    Superscript,
-                    Alignment,
-                    FindAndReplace,
-                    Font,
-                    Heading,
-                    PasteFromOffice,
-                    List,
-                    Link1,
-                    Indent,
-                    IndentBlock,
-                ],
-                toolbar: {
-                    items: [
-                        "undo",
-                        "redo",
-                        "|",
-                        "bold",
-                        "italic",
-                        "underline",
-                        "fontSize",
-                        "fontFamily",
-                        "|",
-                        "alignment",
-                        "heading",
-                        "bulletedList",
-                        "numberedList",
-                        "indent",
-                        "outdent",
-                        "link",
-                        "findAndReplace",
-                        "strikethrough",
-                        "subscript",
-                        "superscript",
-                    ],
-                },
-            },
-            form: useForm({
-                subject: this.subject,
-                recipient: this.user,
-                through: {},
-                body: "",
-            }),
-            through_users: this.users,
-            numOfThrough: 1,
+        editorOptions: {
+            // Add your Quill options here
+        },
+        form: useForm({
+            subject: this.subject,
+            recipient: this.user,
+            through: {},
+            body: "kljldkfjsa",
+        }),
+        through_users: this.users,
+        numOfThrough: 1,
         };
     },
-    components: { AppLayout, Link, SecondaryButton },
+    components: { AppLayout, Link, SecondaryButton, QuillEditor },
     methods: {
+        handleEditorInput(e) {
+            this.form.body = e.target.innerHTML;
+        },
         addThroughInput() {
             this.numOfThrough++;
         },
@@ -362,9 +302,3 @@ export default {
     },
 };
 </script>
-<style>
-.ck-editor__editable_inline:not(.ck-comment__input *) {
-    height: 15rem;
-    overflow-y: auto;
-}
-</style>
