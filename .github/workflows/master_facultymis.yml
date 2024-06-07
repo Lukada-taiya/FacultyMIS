@@ -65,4 +65,4 @@ jobs:
           app-name: 'facultymis'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE}}
-          package: .
+          package: release.zip
