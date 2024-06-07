@@ -40,6 +40,12 @@ jobs:
           name: php-app
           path: release.zip
 
+      - name: Install Node Packages
+        run: npm install
+
+      - name: Build Node Packages
+        run: npm run build
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
