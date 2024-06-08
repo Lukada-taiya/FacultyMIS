@@ -76,6 +76,9 @@ export default {
 };
 </script>
 <style scoped>
+main {
+    height: 70vh;
+}
 .section {
     text-align: center;
     margin: 2rem 0;
