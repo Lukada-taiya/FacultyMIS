@@ -32,7 +32,7 @@ After installing the required dependencies, ran these commands.
 
 > composer update
 
-> php artisan migrate --seed
+> php artisan migrate:fresh --seed
 
 > php artisan serve
 
