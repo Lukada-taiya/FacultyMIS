@@ -1,5 +1,5 @@
 <template>
-    <FrontendLayout> 
+    <FrontendLayout>
         <main>
             <div class="left">
                 <div class="heading">
@@ -32,7 +32,7 @@
 <script>
 import GradientText from "../Shared/ui/GradientText.vue";
 import BaseButton from "../Shared/ui/BaseButton.vue";
-import FrontendLayout from "@/Layouts/FrontendLayout.vue"; 
+import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 export default {
     components: { BaseButton, GradientText, FrontendLayout},
 };
@@ -41,7 +41,7 @@ export default {
 main {
     margin-top: 3rem;
     position: relative;
-    height: 32rem;
+    height: 65vh;
 }
 
 .left {
@@ -77,7 +77,7 @@ main {
 }
 
 .right .image img {
-    width: 85%;
+    width: 70%;
     border-radius: 100px 100px 100px 240px;
     box-shadow: 20px 20px #610808;
 }

@@ -37,6 +37,7 @@ export default {
 <style scoped>
 main {
     text-align: center;
+    height: 70vh;
 }
 
 .main {
