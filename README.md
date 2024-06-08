@@ -2,6 +2,8 @@
 
 This application is a management information system specifically built for CKT University of Technology and Applied Sciences in Ghana.
 
+Live Demo: [facultymis](https://facultymis.azurewebsites.net/)
+
 #### Technologies
 - Laravel 10.x
 - Vue3
