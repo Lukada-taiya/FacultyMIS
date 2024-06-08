@@ -54,7 +54,7 @@ class NoticesController extends Controller
         ]);
 
         Notice::create($result);
-        return Redirect::route('requests.index');
+        return Redirect::route('notices.index');
     }
 
     /**
