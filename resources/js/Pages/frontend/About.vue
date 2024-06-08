@@ -1,32 +1,34 @@
 <template>
     <FrontendLayout>
-    <main>
-        <div class="left">
-            <div class="title">
-                <gradient-text htype="h1">About Us</gradient-text>
+        <main>
+            <div class="left">
+                    <div class="title">
+                        <gradient-text htype="h1">About Us</gradient-text>
+                    </div>
+                    <div class="content">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore nisl tincidunt
+                        eget. Lectus mauris eros in vitae . Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore nisl tincidunt eget. Lectus mauris eros in
+                        vitae .
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore nisl tincidunt
+                        eget. Lectus mauris eros in vitae .
+                    </p>
+                    </div>
+                </div>
+            <div class="right">
+                    <img src="../assets/about_pic.jpg" alt="about_pic" />
             </div>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore nisl tincidunt
-                eget. Lectus mauris eros in vitae . Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore nisl tincidunt eget. Lectus mauris eros in
-                vitae .
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore nisl tincidunt
-                eget. Lectus mauris eros in vitae .
-            </p>
-        </div>
-        <div class="right">
-            <img src="../assets/about_pic.jpg" alt="about_pic" />
-        </div>
-    </main>
-</FrontendLayout>
+        </main>
+    </FrontendLayout>
 </template>
-<script> 
-import GradientText from "../Shared/ui/GradientText.vue"; 
+<script>
+import GradientText from "../Shared/ui/GradientText.vue";
 import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 export default {
     components: { GradientText, FrontendLayout },
@@ -35,36 +37,38 @@ export default {
 <style scoped>
 main {
     margin-top: 2rem;
-    height: 500px;
+    height: 70vh;
     display: flex;
 }
+
 .left {
     width: calc(50% - 50px);
     height: 100%;
-    box-sizing: border-box;
-    padding-left: 1.5rem;
 }
 
 .left .title {
     text-align: center;
     margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.left .content {
+    width: 90%;
+    padding: 1rem;
 }
 
 .right {
     position: relative;
     width: calc(50% + 50px);
-    background-color: transparent;
     box-sizing: border-box;
-    border-left: 100px solid #950c0c;
-    border-bottom: 500px solid transparent;
 }
 
 .right img {
     position: absolute;
     top: 0;
-    left: -100px;
-    height: 500px;
-    z-index: -1;
-    width: 725px;
+    right: 0;
+    overflow: hidden;
+    height: 70vh;
+    border-radius: 2rem 0 0 2rem;
 }
 </style>
