@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -46,7 +47,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update courses']);
         Permission::create(['name' => 'delete courses']);
         Permission::create(['name' => 'read courses']);
-        
+
         Permission::create(['name' => 'create others courses']);
                 Permission::create(['name' => 'update others courses']);
                 Permission::create(['name' => 'delete others courses']);
@@ -56,7 +57,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update departments']);
         Permission::create(['name' => 'delete departments']);
         Permission::create(['name' => 'read departments']);
-        
+
         Permission::create(['name' => 'create others programmes']);
         Permission::create(['name' => 'update others programmes']);
         Permission::create(['name' => 'delete others programmes']);
@@ -65,7 +66,7 @@ class PermissionSeeder extends Seeder
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'super-admin']);
         $role1->givePermissionTo(Permission::all());
-        // gets all permissions via Gate::before rule; see AuthServiceProvider      
+        // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         $role2 = Role::create(['name' => 'dean']);
         $role2->givePermissionTo([
@@ -142,7 +143,7 @@ class PermissionSeeder extends Seeder
         // }
 
         // create demo users
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Super Admin User',
             'email' => 'superadmin@cktutas.com',
             'email_verified_at' => now(),
@@ -155,7 +156,7 @@ class PermissionSeeder extends Seeder
         ]);
         $user->assignRole($role1);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Dean User',
             'email' => 'dean@cktutas.com',
             'email_verified_at' => now(),
@@ -168,7 +169,7 @@ class PermissionSeeder extends Seeder
         ]);
         $user->assignRole($role2);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Administrator User',
             'email' => 'administrator@cktutas.com',
             'email_verified_at' => now(),
@@ -181,7 +182,7 @@ class PermissionSeeder extends Seeder
         ]);
         $user->assignRole($role3);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Hod User',
             'email' => 'hod@cktutas.com',
             'email_verified_at' => now(),
@@ -191,10 +192,11 @@ class PermissionSeeder extends Seeder
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'department_id' => rand(1, 10)
         ]);
         $user->assignRole($role4);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Coordinator User',
             'email' => 'coordinator@cktutas.com',
             'email_verified_at' => now(),
@@ -204,10 +206,12 @@ class PermissionSeeder extends Seeder
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'department_id' => rand(1, 10),
+            'programme_id' => rand(1, 10)
         ]);
         $user->assignRole($role5);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Lecturer User',
             'email' => 'lecturer@cktutas.com',
             'email_verified_at' => now(),
@@ -217,10 +221,11 @@ class PermissionSeeder extends Seeder
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'programme_id' => rand(1, 10)
         ]);
         $user->assignRole($role6);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Student User',
             'email' => 'student@cktutas.com',
             'email_verified_at' => now(),
@@ -230,10 +235,12 @@ class PermissionSeeder extends Seeder
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'programme_id' => rand(1, 10),
+            'level_id' => rand(1, 7)
         ]);
         $user->assignRole($role7);
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Guest User',
             'email' => 'guest@cktutas.com',
             'email_verified_at' => now(),
