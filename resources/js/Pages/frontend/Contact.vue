@@ -77,7 +77,7 @@ export default {
 </script>
 <style scoped>
 main {
-    height: 70vh;
+    min-height: 70vh;
 }
 .section {
     text-align: center;
