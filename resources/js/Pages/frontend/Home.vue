@@ -41,7 +41,7 @@ export default {
 main {
     margin-top: 3rem;
     position: relative;
-    height: 65vh;
+    min-height: 65vh;
 }
 
 .left {

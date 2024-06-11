@@ -37,7 +37,7 @@ export default {
 <style scoped>
 main {
     margin-top: 2rem;
-    height: 70vh;
+    min-height: 70vh;
     display: flex;
 }
 

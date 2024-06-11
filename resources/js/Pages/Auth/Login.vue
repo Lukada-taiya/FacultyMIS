@@ -29,7 +29,7 @@
                         ></div>
                     </div> -->
                     <div v-if="login" class="form-desc">
-                        Don't have an account? 
+                        Don't have an account?
                         <Link href="/register">Sign Up</Link>
                     </div>
                     <!-- <div v-else class="form-desc">
@@ -230,6 +230,7 @@ export default {
 .section {
     text-align: center;
     margin: 2rem 0;
+    min-height: 63vh;
 }
 
 .form-container {
