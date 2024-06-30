@@ -4,7 +4,7 @@
             <div class="left">
                 <div class="heading">
                     <GradientText htype="h1"
-                        >Management Information System - SCIS</GradientText
+                        >Management Information System - MIS</GradientText
                     >
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,

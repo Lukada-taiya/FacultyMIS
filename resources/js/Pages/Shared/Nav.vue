@@ -5,7 +5,7 @@
                 <img src="../assets/logo.png" alt="ckt_logo" />
             </div>
             <div class="brand-text">
-                SCHOOL OF COMPUTING AND INFORMATION SCIENCES - CK TEDAM
+                FACULTY MANAGEMENT SYSTEM - FACULTYMIS
             </div>
         </div>
         <div class="nav">
