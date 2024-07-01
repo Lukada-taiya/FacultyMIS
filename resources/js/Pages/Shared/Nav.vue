@@ -5,7 +5,7 @@
                 <img src="../assets/logo.png" alt="ckt_logo" />
             </div>
             <div class="brand-text">
-                FACULTY MANAGEMENT SYSTEM - FACULTYMIS
+                FACULTY MANAGEMENT INFORMATION SYSTEM - FACULTYMIS
             </div>
         </div>
         <div class="nav">
@@ -73,7 +73,7 @@ header {
 }
 
 .nav ul a {
-    color: inherit; 
+    color: inherit;
     text-decoration: none;
 }
 
