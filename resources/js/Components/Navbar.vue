@@ -6,7 +6,7 @@
         <!-- logo -->
         <div class="flex-none w-56 flex flex-row items-center">
             <img src="/logo.png" class="w-10 flex-none" />
-            <strong class="capitalize ml-1 flex-1">SCIS - CK TEDAM</strong>
+            <strong class="capitalize ml-1 flex-1">FacultyMIS</strong>
 
             <button
                 id="sliderBtn"
@@ -118,10 +118,10 @@
                     </div>
                 </div>
                 <!-- end user -->
- 
-                
+
+
                 <!-- messages -->
-               
+
             </div>
             <!-- end right -->
         </div>
